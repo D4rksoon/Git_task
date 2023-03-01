@@ -68,7 +68,7 @@ int split(const std::string& fileName)
 	}
 	std::cout << "split is done\n";
 }
-bool merge(std::fstream* fileA, std::fstream* fileB)
+void merge(std::fstream* fileA, std::fstream* fileB)
 {
 
 	int h;
@@ -99,7 +99,7 @@ bool merge(std::fstream* fileA, std::fstream* fileB)
 			x[h] = y[h];
 		}
 		else {
-			ch = true;
+			//ch = true;
 			fileB[flag] << x[1 - h] << ' ';
 			while (fileA[1 - h] >> y[1 - h] and x[1 - h] <= y[1 - h]) {
 				fileB[flag] << y[1 - h] << ' ';
@@ -126,12 +126,12 @@ bool merge(std::fstream* fileA, std::fstream* fileB)
 		fileA[i].close();
 		fileB[i].close();
 	}
-	return ch;
+	//return ch;
 	std::cout << "merge is done\n";
 }
 void sortFile(const std::string& fileName)
 {
-	bool ch = true;
+	//bool ch = true;
 	const int n = 2;
 	std::ifstream file(fileName);
 	if (!file.is_open()) {
@@ -142,32 +142,31 @@ void sortFile(const std::string& fileName)
 
 	split(fileName);
 
-	while (ch) {
-		for (int i = 0; i < n; i++) {
-			std::string fileNameA = "fileA" + std::to_string(i) + ".txt";
-			std::string fileNameB = "fileB" + std::to_string(i) + ".txt";
-			fileA[i].open(fileNameA, std::ios::in);
-			fileB[i].open(fileNameB, std::ios::out);
-		}
-		for (int i = 0; i < n; i++) {
-			if (!fileB[i].is_open() || !fileA[i].is_open())
-				throw("Ошибка открытия");
-		}
-		if (ch = merge(fileA, fileB) == false) {
-			break;
-		}
-		for (int i = 0; i < n; i++) {
-			std::string fileNameA = "fileA" + std::to_string(i) + ".txt";
-			std::string fileNameB = "fileB" + std::to_string(i) + ".txt";
-			fileA[i].open(fileNameA, std::ios::out);
-			fileB[i].open(fileNameB, std::ios::in);
-		}
-		for (int i = 0; i < n; i++) {
-			if (!fileB[i].is_open() || !fileA[i].is_open())
-				throw("Ошибка открытия");
-		}
-		ch = merge(fileB, fileA);
+
+	for (int i = 0; i < n; i++) {
+		std::string fileNameA = "fileA" + std::to_string(i) + ".txt";
+		std::string fileNameB = "fileB" + std::to_string(i) + ".txt";
+		fileA[i].open(fileNameA, std::ios::in);
+		fileB[i].open(fileNameB, std::ios::out);
 	}
+	for (int i = 0; i < n; i++) {
+		if (!fileB[i].is_open() || !fileA[i].is_open())
+			throw("Ошибка открытия");
+	}
+	merge(fileA, fileB);
+	
+	for (int i = 0; i < n; i++) {
+		std::string fileNameA = "fileA" + std::to_string(i) + ".txt";
+		std::string fileNameB = "fileB" + std::to_string(i) + ".txt";
+		fileA[i].open(fileNameA, std::ios::out);
+		fileB[i].open(fileNameB, std::ios::in);
+	}
+	for (int i = 0; i < n; i++) {
+		if (!fileB[i].is_open() || !fileA[i].is_open())
+			throw("Ошибка открытия");
+	}
+	merge(fileB, fileA);
+
 
 
 
