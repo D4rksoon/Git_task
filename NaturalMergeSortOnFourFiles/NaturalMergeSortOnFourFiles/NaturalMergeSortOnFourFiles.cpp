@@ -33,6 +33,30 @@ bool checkOnSorted(const std::string& fileName)
 		tmp = value;
 	}
 }
+bool fileIsEmpty(std::fstream* fileA, std::fstream* fileB)
+{
+	const int n = 2;
+	for (int i = 0; i < n; i++) {
+		std::string fileNameA = "fileA" + std::to_string(i) + ".txt";
+		std::string fileNameB = "fileB" + std::to_string(i) + ".txt";
+		fileA[i].open(fileNameA, std::ios::in);
+		fileB[i].open(fileNameB, std::ios::in);
+		if (!fileB[i].is_open() || !fileA[i].is_open())
+			throw("Ошибка открытия");
+		else if (fileB[i].peek() == EOF || fileA[i].peek() == EOF) {
+			for (int i = 0; i < n; i++) {
+				fileA[i].close();
+				fileB[i].close();
+			}
+			return true;
+		}
+	}
+	for (int i = 0; i < n; i++) {
+		fileA[i].close();
+		fileB[i].close();
+	}
+	return false;
+}
 int split(const std::string& fileName)
 {
 	int x, y;
@@ -76,7 +100,6 @@ void merge(std::fstream* fileA, std::fstream* fileB)
 	const int n = 2;
 	int x[n];
 	int y[n];
-	bool ch = false;
 	//F:  1 7 4 0 9 4 8 8 2 4 			
 	//A0: 1 7 | 0 9 | 2 4 | 
 	//A1: 4 | 4 8 8 |		
