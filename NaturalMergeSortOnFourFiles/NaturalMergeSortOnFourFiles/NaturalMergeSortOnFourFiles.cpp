@@ -51,16 +51,16 @@ int split(const std::string& fileName)
 		if (!fileA[i].is_open())
 			throw("Ошибка открытия");
 	}
-	file >> x; // 1 7 4 0 9 4 8 8 2 4 
-	fileA[flag] << x << ' ';
+
+	file >> x; 
 	while (!file.eof()) {
-		while (file >> y and x <= y) { // 1 7 0 9 2 4
-			fileA[flag] << y << ' ';   // 4 4 8 8 
+		fileA[flag] << x << ' ';
+		while (file >> y and x <= y) { 
 			x = y;
+			fileA[flag] << x << ' ';   		
 		}
 		x = y;
 		flag = 1 - flag;
-		fileA[flag] << x << ' ';
 	}
 	file.close();
 	for (int i = 0; i < n; i++) {
