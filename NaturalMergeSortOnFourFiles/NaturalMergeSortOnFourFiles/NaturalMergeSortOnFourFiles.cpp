@@ -15,6 +15,7 @@ bool createFileWithRandNum(const std::string& fileName, const int numCount, cons
 		int x = rand() % maxNum;
 		file << x << ' ';
 	}
+	return true;
 }
 bool checkOnSorted(const std::string& fileName)
 {
@@ -100,16 +101,10 @@ void merge(std::fstream* fileA, std::fstream* fileB)
 	const int n = 2;
 	int x[n];
 	int y[n];
-	//F:  1 7 4 0 9 4 8 8 2 4 			
-	//A0: 1 7 | 0 9 | 2 4 | 
-	//A1: 4 | 4 8 8 |		
-	//B0: 1 4 7 | 2 4 8 |	->	A0: 0 1 4 4 7 8 9	->	B0: 0 1 2 4 4 7 8 8 9
-	//B1: 0 4 8 9 |				A1: 2 4 8
-
 	fileA[0] >> x[0];
 	fileA[1] >> x[1];
 	while (!fileA[0].eof() and !fileA[1].eof()) {
-		std::cout << "merging..\n";
+		//std::cout << "merging..\n";
 		if (x[0] < x[1]) {
 			h = 0;
 		}
@@ -150,10 +145,39 @@ void merge(std::fstream* fileA, std::fstream* fileB)
 	}
 	std::cout << "merge is done\n";
 }
+void writingSortedFile(const std::string& fileName, std::fstream* fileA, std::fstream* fileB) {
+	const int n = 2;
+	int value;
+	std::ofstream file(fileName);
+	if (!file.is_open()) {
+		throw("Ошибка открытия\n");
+	}
+	for (int i = 0; i < n; i++) {
+		std::string fileNameA = "fileA" + std::to_string(i) + ".txt";
+		std::string fileNameB = "fileB" + std::to_string(i) + ".txt";
+		fileA[i].open(fileNameA, std::ios::in);
+		fileB[i].open(fileNameB, std::ios::in);
+	}
+	for (int i = 0; i < n; i++) {
+		if (!fileB[i].is_open() || !fileA[i].is_open())
+			throw("Ошибка открытия");
+	}
+	if (fileA[1].peek() == EOF) {
+		while (fileA[0] >> value) {
+			file << value << ' ';
+		}
+	}
+	if (fileB[1].peek() == EOF) {
+		while (fileB[0] >> value) {
+			file << value << ' ';
+		}
+	}
+}
 void sortFile(const std::string& fileName)
 {
 	bool check = false;
 	const int n = 2;
+	int value;
 	std::ifstream file(fileName);
 	if (!file.is_open()) {
 		throw("Ошибка открытия\n");
@@ -193,13 +217,41 @@ void sortFile(const std::string& fileName)
 		merge(fileB, fileA);
 		check = fileIsEmpty(fileA, fileB);
 	}
+	writingSortedFile(fileName, fileA, fileB);
 }
+int createAndSortFile(const std::string& fileName, int numCount, int maxNum) {
+	if (!createFileWithRandNum(fileName, numCount, maxNum)) {
+		return -1;
+	}
 
+	sortFile(fileName);
+
+	if (!checkOnSorted(fileName)) {
+		return -2;
+	}
+
+	return 1;
+}
 int main()
 {
-	int numCount = 10;
-	int maxNum = 10;
+	int numCount = 1000;
+	int maxNum = 1000;
 	std::string fileName = "file.txt";
-	//createFileWithRandNum(fileName, numCount, maxNum);
-	sortFile(fileName);
+	for (int i = 0; i < 10; i++) {
+		switch (createAndSortFile(fileName, numCount, maxNum)) {
+		case 1:
+			std::cout << "Test passed." << std::endl;
+			break;
+
+		case -1:
+			std::cout << "Test failed: can't create file." << std::endl;
+			break;
+
+		case -2:
+			std::cout << "Test failed: file isn't sorted." << std::endl;
+			break;
+		}
+
+		return 0;
+	}
 }
