@@ -12,7 +12,7 @@ bool createFileWithRandNum(const std::string& fileName, const int numCount, cons
 		return false;
 	for (int i = 0; i < numCount; i++)
 	{
-		int x = rand() % maxNum;
+		int x = (rand() * rand()) % maxNum; // Позволяет генерировать число больше 32757
 		file << x << ' ';
 	}
 	return true;
@@ -33,6 +33,7 @@ bool checkOnSorted(const std::string& fileName)
 		}
 		tmp = value;
 	}
+	return true;
 }
 bool fileIsEmpty(std::fstream* fileA, std::fstream* fileB)
 {
@@ -91,7 +92,7 @@ int split(const std::string& fileName)
 	for (int i = 0; i < n; i++) {
 		fileA[i].close();
 	}
-	std::cout << "split is done\n";
+	//std::cout << "split is done\n";
 }
 void merge(std::fstream* fileA, std::fstream* fileB)
 {
@@ -112,7 +113,6 @@ void merge(std::fstream* fileA, std::fstream* fileB)
 			h = 1;
 		}
 		fileB[flag] << x[h] << ' ';
-		//fileA[h] >> y[h]
 		if (fileA[h] >> y[h] and x[h] <= y[h]) {
 			x[h] = y[h];
 		}
@@ -143,7 +143,7 @@ void merge(std::fstream* fileA, std::fstream* fileB)
 		fileA[i].close();
 		fileB[i].close();
 	}
-	std::cout << "merge is done\n";
+	//std::cout << "merge is done\n";
 }
 void writingSortedFile(const std::string& fileName, std::fstream* fileA, std::fstream* fileB) {
 	const int n = 2;
@@ -234,8 +234,8 @@ int createAndSortFile(const std::string& fileName, int numCount, int maxNum) {
 }
 int main()
 {
-	int numCount = 1000;
-	int maxNum = 1000;
+	int numCount = 10000;
+	int maxNum = 100000;
 	std::string fileName = "file.txt";
 	for (int i = 0; i < 10; i++) {
 		switch (createAndSortFile(fileName, numCount, maxNum)) {
