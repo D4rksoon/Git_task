@@ -23,19 +23,42 @@ void BinaryTree::clear(Node* root)
 	}
 }
 
-BinaryTree::BinaryTree()
+void BinaryTree::travelNLR(Node* root)
 {
-	m_root = new Node();
+	if (root == nullptr) {
+		return;
+	}
+	std::cout << root->key() << ' ';
+
+	travelNLR(root->leftChild());
+	travelNLR(root->rightChild());
+}
+
+BinaryTree::BinaryTree(const int key)
+{
+	m_root = new Node(key);
 }
 
 BinaryTree::~BinaryTree()
 {
-	delete m_root;
+	clear(m_root);
 }
 
 BinaryTree::BinaryTree(const Node& other)
 {
 	m_root = new Node(other.key());
+}
+
+BinaryTree& BinaryTree::operator=(const BinaryTree& other)
+{
+	if (this == &other) {
+		return *this;
+	}
+	clear(this->root());
+	m_root = new Node(other.m_root->key());
+	m_root->setLeftChild(other.m_root->leftChild());
+	m_root->setRightChild(other.m_root->rightChild());
+	return *this;
 }
 
 BinaryTree::Node* BinaryTree::root()
@@ -78,27 +101,24 @@ BinaryTree::Node* BinaryTree::addNode(Node* root, int key)
 	}
 }
 
-bool BinaryTree::deleteNode(Node* root, int key)
+bool BinaryTree::deleteNode(Node* root, int key) //TODO
 {
-	if (root->key() == key) {
-		Node* del = root;
-		if (root->leftChild() == 0 and root->rightChild() == 0) {
-			delete root;
-		}
-		else if (root->leftChild() == 0) {
-			root = root->rightChild();
-			delete root;
-		}
-		else {
-			root = root->rightChild();
-			delete root;
-		}
+	/*if (!root or root->key() == key) {
+		delete root;		
+		return true;
+	}*/
+	root = searchNLR(root, key);
+	if (root->leftChild() == nullptr and root->rightChild() == nullptr) {
+
+		delete root;
 		return true;
 	}
-	else {
-		deleteNode(root->leftChild(), key);
-		deleteNode(root->rightChild(), key);
+	else if (root->leftChild() == nullptr) {
+
 	}
+	//deleteNode(root->leftChild(), key);
+	//deleteNode(root->rightChild(), key);
+	
 	return false;
 }
 
@@ -110,11 +130,23 @@ void BinaryTree::deleteAllNode(Node* root)
 bool BinaryTree::isEmpty()
 {
 	Node* tmp = m_root;
-	if (m_root == nullptr) {
+	if (tmp == nullptr) {
 		return true;
 	}
 	else
 		return false;
+}
+
+BinaryTree::Node* BinaryTree::searchNLR(Node* root, int key)
+{
+	if (!root or root->key() == key) {
+		return root;
+	}
+	Node* subSearch = searchNLR(root->leftChild(), key);
+	if (!subSearch) {
+		subSearch = searchNLR(root->rightChild(), key);
+	}
+	return subSearch;
 }
 
 int BinaryTree::heightTree(Node* root)
@@ -123,8 +155,6 @@ int BinaryTree::heightTree(Node* root)
 		return 1;
 	}
 	else {
-		//int r = heightTree(root->rightChild());
-		//int l = heightTree(root->leftChild());
 		if (root->leftChild() == nullptr) {
 			return 1 + heightTree(root->rightChild());
 		}

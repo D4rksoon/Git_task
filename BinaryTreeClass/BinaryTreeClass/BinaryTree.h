@@ -45,10 +45,14 @@ class BinaryTree
 	};
 protected:
 	void clear(Node* root);
+
 public:
-	BinaryTree();
+	
+
+	BinaryTree(const int key = 0);
 	~BinaryTree();
 	BinaryTree(const Node& other);
+	BinaryTree& operator=(const BinaryTree&);
 	Node* root();
 	Node* addNode(int key);
 	Node* addNode(Node* root, int key);
@@ -56,6 +60,7 @@ public:
 	void deleteAllNode(Node* root);
 	void deleteSubNode();
 	bool isEmpty();
+	Node* searchNLR(Node* root, int key);
 	Node* copySubtreeNode(Node* root);
 	int heightTree(Node* root);
 	int countNode();
@@ -63,6 +68,7 @@ public:
 	int maxKeyInBinaryTree();
 	//std::vector<int> allKey();
 	void horizontalOutputTree(Node* root, int leftField = 0, int distanceLevel = 8);
+	void travelNLR(Node* root);
 
 
 private:

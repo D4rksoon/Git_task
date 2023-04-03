@@ -7,15 +7,29 @@ int main()
     srand(time(0));
 
     BinaryTree tree;
+    BinaryTree tree1;
     tree.root()->setKey(10);   
     for (int i = 1; i <= 6; i++) {
         tree.addNode(i);
     }
     tree.horizontalOutputTree(tree.root());
-    //tree.deleteNode(tree.root(), 10);
+
+    /*if (tree.deleteNode(tree.root(), 1)) {
+        std::cout << "Удаление успешно ";
+    }
+    else
+        std::cout << "Не успешно";*/
     std::cout << "\n---------------------\n";
-    //tree.horizontalOutputTree(tree.root());
-    int height = tree.heightTree(tree.root());
-    std::cout << "height: " << height;
+
+    //tree.travelNLR(tree.root());
+    
+    BinaryTree treeC(tree);
+    treeC.horizontalOutputTree(treeC.root());
+
+    //tree1 = tree;
+    //tree1.horizontalOutputTree(tree1.root());
+    
+    //int height = tree.heightTree(tree.root());
+    //std::cout << "height: " << height;
     
 }
