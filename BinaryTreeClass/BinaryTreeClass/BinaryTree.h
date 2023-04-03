@@ -31,7 +31,7 @@ class BinaryTree
 		{
 			return m_rightChild;
 		}
-		void setLeftChild(Node* newChild)
+		void setRightChild(Node* newChild)
 		{
 			m_rightChild = newChild;
 		}
@@ -47,6 +47,20 @@ class BinaryTree
 public:
 	BinaryTree();
 	~BinaryTree();
+	Node* root();
+	Node* addNode(int key);
+	Node* addNode(Node* root, int key);
+	bool deleteNode(Node* root, int key);
+	void deleteAllNode();
+	void deleteSubNode();
+	bool isEmpty();
+	Node* copySubtreeNode(Node* root);
+	int heightTree(Node* root);
+	int countNode();
+	int minKeyInBinaryTree();
+	int maxKeyInBinaryTree();
+	//std::vector<int> allKey();
+	void horizontalOutputTree(Node* root, int leftField = 0, int distanceLevel = 8);
 
 
 private:
