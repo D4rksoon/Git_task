@@ -43,15 +43,17 @@ class BinaryTree
 		Node* m_leftChild;
 		Node* m_rightChild;
 	};
-
+protected:
+	void clear(Node* root);
 public:
 	BinaryTree();
 	~BinaryTree();
+	BinaryTree(const Node& other);
 	Node* root();
 	Node* addNode(int key);
 	Node* addNode(Node* root, int key);
 	bool deleteNode(Node* root, int key);
-	void deleteAllNode();
+	void deleteAllNode(Node* root);
 	void deleteSubNode();
 	bool isEmpty();
 	Node* copySubtreeNode(Node* root);

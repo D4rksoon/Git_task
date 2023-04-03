@@ -2,6 +2,27 @@
 #include <random>
 #include <iostream>
 
+int max(int x, int y)
+{
+	if (x > y) {
+		return x;
+	}
+	else {
+		return y;
+	}
+}
+
+void BinaryTree::clear(Node* root)
+{
+	if (root == nullptr)
+		return;
+	else if (root) {
+		clear(root->leftChild());
+		clear(root->rightChild());
+		delete root;
+	}
+}
+
 BinaryTree::BinaryTree()
 {
 	m_root = new Node();
@@ -10,6 +31,11 @@ BinaryTree::BinaryTree()
 BinaryTree::~BinaryTree()
 {
 	delete m_root;
+}
+
+BinaryTree::BinaryTree(const Node& other)
+{
+	m_root = new Node(other.key());
 }
 
 BinaryTree::Node* BinaryTree::root()
@@ -49,6 +75,65 @@ BinaryTree::Node* BinaryTree::addNode(Node* root, int key)
 	else {
 		addNode(root->rightChild(), key);
 		return root->rightChild();
+	}
+}
+
+bool BinaryTree::deleteNode(Node* root, int key)
+{
+	if (root->key() == key) {
+		Node* del = root;
+		if (root->leftChild() == 0 and root->rightChild() == 0) {
+			delete root;
+		}
+		else if (root->leftChild() == 0) {
+			root = root->rightChild();
+			delete root;
+		}
+		else {
+			root = root->rightChild();
+			delete root;
+		}
+		return true;
+	}
+	else {
+		deleteNode(root->leftChild(), key);
+		deleteNode(root->rightChild(), key);
+	}
+	return false;
+}
+
+void BinaryTree::deleteAllNode(Node* root)
+{
+	clear(root);
+}
+
+bool BinaryTree::isEmpty()
+{
+	Node* tmp = m_root;
+	if (m_root == nullptr) {
+		return true;
+	}
+	else
+		return false;
+}
+
+int BinaryTree::heightTree(Node* root)
+{
+	if (root->leftChild() == nullptr and root->rightChild() == nullptr) {
+		return 1;
+	}
+	else {
+		//int r = heightTree(root->rightChild());
+		//int l = heightTree(root->leftChild());
+		if (root->leftChild() == nullptr) {
+			return 1 + heightTree(root->rightChild());
+		}
+		else if (root->rightChild() == nullptr) {
+			return 1 + heightTree(root->leftChild());
+		}
+		else {
+			return 1 + max(heightTree(root->leftChild()), heightTree(root->rightChild()));
+		}
 	}
 }
 
