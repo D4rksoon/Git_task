@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 class BinaryTree
 {
 	class Node // private
@@ -45,13 +46,16 @@ class BinaryTree
 	};
 protected:
 	void clear(Node* root);
+	Node* replaceLeaf(Node* root);
 
 public:
 	
 
 	BinaryTree(const int key = 0);
 	~BinaryTree();
-	BinaryTree(const Node& other);
+	BinaryTree(const BinaryTree& other);
+	void copySubTree(Node* copiedTree, Node* currentTree, int k);
+	
 	BinaryTree& operator=(const BinaryTree&);
 	Node* root();
 	Node* addNode(int key);
@@ -61,15 +65,16 @@ public:
 	void deleteSubNode();
 	bool isEmpty();
 	Node* searchNLR(Node* root, int key);
-	Node* copySubtreeNode(Node* root);
+	Node* searchParent(Node* root, Node* node);
+	void printKey(Node* root);
 	int heightTree(Node* root);
-	int countNode();
-	int minKeyInBinaryTree();
-	int maxKeyInBinaryTree();
-	//std::vector<int> allKey();
+	void allKeys(std::vector<int>& keys, Node* root);
+	int countNode(Node* root);
+	int minKey(Node* root);
+	int maxKey(Node* root);
+	void leafsTree(std::vector<int>& keys, Node* root);
 	void horizontalOutputTree(Node* root, int leftField = 0, int distanceLevel = 8);
 	void travelNLR(Node* root);
-
 
 private:
 	Node* m_root = nullptr;

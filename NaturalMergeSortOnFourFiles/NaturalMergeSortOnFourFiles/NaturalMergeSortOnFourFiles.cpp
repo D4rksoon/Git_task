@@ -162,7 +162,7 @@ void writingSortedFile(const std::string& fileName, std::fstream* fileA, std::fs
 		if (!fileB[i].is_open() || !fileA[i].is_open())
 			throw("Ошибка открытия");
 	}
-	if (fileA[1].peek() == EOF) {
+	if (fileA[1].peek() == EOF) { // peek - берет последний элемент
 		while (fileA[0] >> value) {
 			file << value << ' ';
 		}
