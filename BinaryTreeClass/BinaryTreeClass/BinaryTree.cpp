@@ -93,16 +93,6 @@ BinaryTree::Node* BinaryTree::root()
 	return m_root;
 }
 
-BinaryTree::Node* BinaryTree::addNode(int key)
-{
-	if (m_root) {
-		return addNode(m_root, key);
-	}
-	else {
-		return m_root = new Node(key);
-	}
-}
-
 BinaryTree::Node* BinaryTree::addNode(Node* root, int key)
 {
 	if (!root->leftChild()) {
@@ -119,6 +109,16 @@ BinaryTree::Node* BinaryTree::addNode(Node* root, int key)
 	}
 	else {	
 		return addNode(root->rightChild(), key);
+	}
+}
+
+BinaryTree::Node* BinaryTree::addNode(int key)
+{
+	if (m_root) {
+		return addNode(m_root, key);
+	}
+	else {
+		return m_root = new Node(key);
 	}
 }
 
@@ -230,11 +230,6 @@ void BinaryTree::deleteAllNode(Node* root)
 	}
 }
 
-void BinaryTree::deleteSubNode(Node* root)
-{
-	deleteAllNode(root);
-}
-
 bool BinaryTree::isEmpty()
 {
 	Node* tmp = m_root;
@@ -256,6 +251,11 @@ BinaryTree::Node* BinaryTree::searchNLR(Node* root, int key)
 		subTreeSearch = searchNLR(root->rightChild(), key);
 	}	
 	return subTreeSearch;
+}
+
+BinaryTree::Node* BinaryTree::searchNLR(int key)
+{
+	searchNLR(m_root, key);
 }
 
 BinaryTree::Node* BinaryTree::searchParent(Node* root, Node* node)
@@ -318,6 +318,11 @@ int BinaryTree::heightTree(Node* root)
 	}
 }
 
+int BinaryTree::height()
+{
+	return heightTree(m_root);
+}
+
 void BinaryTree::allKeys(std::vector<int>& keys, Node* root)
 {
 	if (!root)
@@ -330,7 +335,14 @@ void BinaryTree::allKeys(std::vector<int>& keys, Node* root)
 	allKeys(keys, root->rightChild());
 }
 
-int BinaryTree::countNode(Node* root)
+std::vector<int> BinaryTree::allKeys()
+{
+	std::vector<int> keys;
+	allKeys(keys, m_root);
+	return std::vector<int>(keys);
+}
+
+int BinaryTree::size(Node* root)
 {
 	std::vector<int> keys;
 	allKeys(keys, root);
@@ -339,7 +351,7 @@ int BinaryTree::countNode(Node* root)
 
 int BinaryTree::size()
 {
-	return countNode(m_root);
+	return size(m_root);
 }
 
 int BinaryTree::minKey(Node* root)
@@ -355,6 +367,11 @@ int BinaryTree::minKey(Node* root)
 	return min;
 }
 
+int BinaryTree::minKey()
+{
+	return minKey(m_root);
+}
+
 int BinaryTree::maxKey(Node* root)
 {
 	std::vector<int> keys;
@@ -366,6 +383,11 @@ int BinaryTree::maxKey(Node* root)
 		}
 	}
 	return max;
+}
+
+int BinaryTree::maxKey()
+{
+	return maxKey(m_root);
 }
 
 void BinaryTree::leafsTree(std::vector<int>& keys, Node* root)
@@ -390,6 +412,13 @@ void BinaryTree::horizontalOutputTree(Node* root, int leftField, int distanceLev
 	std::cout << std::string(leftField, ' ') << root->key() << std::endl;
 	horizontalOutputTree(root->leftChild(), leftField + distanceLevel, distanceLevel);
 
+}
+
+std::vector<int> BinaryTree::leafsTree()
+{
+	std::vector<int> leafs;
+	leafsTree(leafs, m_root);
+	return std::vector<int>(leafs);
 }
 
 void BinaryTree::print()

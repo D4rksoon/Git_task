@@ -37,7 +37,7 @@ void BinaryTreeTester::addAndCount()
 
 void BinaryTreeTester::check_addAndCount(const BinaryTree *tree, const int size)
 {
-
+    assert(tree->size() == size);
 }
 
 void BinaryTreeTester::destructor()
