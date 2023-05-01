@@ -54,10 +54,12 @@ protected:
 	Node* searchNLR(Node* root, int key);
 	Node* searchParent(Node* root, Node* node);
 	int heightTree(Node* root);
+	int heightKey(Node* root, int key, int level);
 	void allKeys(std::vector<int>& keys, Node* root);
 	int size(Node* root);
 	int minKey(Node* root);
 	int maxKey(Node* root);
+	int sumKeys(Node* root);
 	void horizontalOutputTree(Node* root, int leftField = 0, int distanceLevel = 8);
 	void copySubTree(Node* copiedTree, Node* currentTree, int k);
 	void leafsTree(std::vector<int>& keys, Node* root);
@@ -76,10 +78,13 @@ public:
 	Node* searchNLR(int key);
 	void printKey(Node* root);
 	int height();
+	int heightKey(int key);
+	bool isBalanceTree(Node* root);
 	std::vector<int> allKeys();
 	int size();
 	int minKey();
 	int maxKey();
+	int sumKeys();
 	std::vector<int> leafsTree();
 	void print();
 

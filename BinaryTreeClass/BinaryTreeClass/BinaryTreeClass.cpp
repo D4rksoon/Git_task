@@ -5,25 +5,36 @@
 int main()
 {
     setlocale(0, "");
-    //srand(time(0));
-
+    srand(time(0));
+    const int N = 6;
     BinaryTree tree;
     BinaryTree tree1;
-    tree.root()->setKey(10);
-    for (int i = 1; i <= 10; i++) {
+    tree.root()->setKey(100);
+    for (int i = 1; i <= N; i++) {
         tree.addNode(i);
     }
-    tree.horizontalOutputTree(tree.root());
+    tree.print();
 
     std::cout << "\n---------------------\n";
 
     //tree.printKey(tree.root());
 
-    if (tree.deleteNode(tree.root(), 2)) {
+    /*if (tree.deleteNode(2)) {
         std::cout << "Complite " << '\n';
-        tree.horizontalOutputTree(tree.root());
-    }
+        tree.print();
+    }*/
 
+    /*int level = 1;
+    int c = 0;
+    for (int i = 1; i <= N; i++) {
+        c = i;
+        std::cout << c << "] LevelKeys " << tree.heightKey(i) << '\n';
+
+    }*/
+
+    if (tree.isBalanceTree(tree.root())) {
+        std::cout << "itsBalanseTree!!! ";
+    }
     
     //BinaryTree treeC(tree);
     //BinaryTree treeC = tree;
@@ -52,11 +63,7 @@ int main()
     //tree1 = tree;
     //tree1.horizontalOutputTree(tree1.root());
     
-    //int height = tree.heightTree(tree.root());
-    //std::cout << "height: " << height;
+    //int height = tree.height();
+    //std::cout << "height: " << height << '\n';
 
-    BinaryTreeTester tester;
-    for (int size = 10; size < 50; size += 10) {
-        tester.test(size);
-    }
 }

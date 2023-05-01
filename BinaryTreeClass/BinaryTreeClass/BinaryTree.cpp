@@ -216,7 +216,7 @@ bool BinaryTree::deleteNode(Node* root, int key) //TODO
 
 bool BinaryTree::deleteNode(int key)
 {
-	deleteNode(m_root, key);
+	return deleteNode(m_root, key);
 }
 
 void BinaryTree::deleteAllNode(Node* root)
@@ -255,7 +255,7 @@ BinaryTree::Node* BinaryTree::searchNLR(Node* root, int key)
 
 BinaryTree::Node* BinaryTree::searchNLR(int key)
 {
-	searchNLR(m_root, key);
+	return searchNLR(m_root, key);
 }
 
 BinaryTree::Node* BinaryTree::searchParent(Node* root, Node* node)
@@ -323,6 +323,34 @@ int BinaryTree::height()
 	return heightTree(m_root);
 }
 
+int BinaryTree::heightKey(Node* root, int key, int level)
+{
+	Node* node = searchNLR(root, key);
+	if (node == nullptr or root == nullptr) {
+		return -1;
+	}
+	if (root == node) {
+		return level;
+	}
+	return max(heightKey(root->leftChild(), key, level + 1), heightKey(root->rightChild(), key, level + 1));
+
+}
+
+int BinaryTree::heightKey(int key)
+{
+	return heightKey(m_root, key, 1);
+}
+
+bool BinaryTree::isBalanceTree(Node* root)
+{
+	Node* left = root->leftChild();
+	Node* right = root->rightChild();
+	if (abs(heightTree(left) - heightTree(right)) <= 1) {
+		return true;
+	}
+	return false;
+}
+
 void BinaryTree::allKeys(std::vector<int>& keys, Node* root)
 {
 	if (!root)
@@ -388,6 +416,22 @@ int BinaryTree::maxKey(Node* root)
 int BinaryTree::maxKey()
 {
 	return maxKey(m_root);
+}
+
+int BinaryTree::sumKeys(Node* root)
+{
+	std::vector<int> keys;
+	allKeys(keys, root);
+	int sum = keys[0];
+	for (int i = 1; i < keys.size(); i++) {
+		sum += keys[i];
+	}
+	return sum;
+}
+
+int BinaryTree::sumKeys()
+{
+	return sumKeys(m_root);
 }
 
 void BinaryTree::leafsTree(std::vector<int>& keys, Node* root)
