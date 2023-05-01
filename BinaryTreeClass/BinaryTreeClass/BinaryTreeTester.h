@@ -1,10 +1,12 @@
 #pragma once
-#include <vector>;
+#include <Assert.h>
+#include <queue>
 #include "BinaryTree.h"
 class BinaryTreeTester
 {
 public:
     BinaryTreeTester(const bool useConsoleOutput);
+    BinaryTreeTester() = default;
     ~BinaryTreeTester() = default;
 
 	void test(const int size);
@@ -32,6 +34,8 @@ private:
     void height_longOnlyRightSubtree();
     void height_longOnlyLeftAndRightSubtrees();
     void height_longRandomZigzagSubtrees();
+    //std::vector<const BinaryTree::Node*> BinaryTreeTester::treeNodes(const BinaryTree* tree);
+
 
 private:
     int m_maxSize;

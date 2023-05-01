@@ -1,6 +1,5 @@
 #include "BinaryTree.h"
-#include <random>
-#include <iostream>
+
 
 int max(int x, int y)
 {
@@ -12,15 +11,9 @@ int max(int x, int y)
 	}
 }
 
-void BinaryTree::clear(Node* root)
+void BinaryTree::clear()
 {
-	if (root == nullptr)
-		return;
-	else if (root) {
-		clear(root->leftChild());
-		clear(root->rightChild());
-		delete root;
-	}
+	deleteAllNode(m_root);
 }
 
 BinaryTree::Node* BinaryTree::replaceLeaf(Node* root)
@@ -55,7 +48,7 @@ BinaryTree::BinaryTree(const int key)
 
 BinaryTree::~BinaryTree()
 {
-	clear(m_root);
+	clear();
 }
 
 BinaryTree::BinaryTree(const BinaryTree& other)
@@ -87,7 +80,8 @@ BinaryTree& BinaryTree::operator=(const BinaryTree& other)
 	if (this == &other) {
 		return *this;
 	}
-	clear(this->root());
+	this->clear();
+	//clear(this->root());
 	m_root = new Node(other.m_root->key());
 	copySubTree(other.m_root->leftChild(), m_root, 0);
 	copySubTree(other.m_root->rightChild(), m_root, 1);
@@ -220,9 +214,25 @@ bool BinaryTree::deleteNode(Node* root, int key) //TODO
 	return false;
 }
 
+bool BinaryTree::deleteNode(int key)
+{
+	deleteNode(m_root, key);
+}
+
 void BinaryTree::deleteAllNode(Node* root)
 {
-	clear(root);
+	if (root == nullptr)
+		return;
+	else if (root) {
+		deleteAllNode(root->leftChild());
+		deleteAllNode(root->rightChild());
+		delete root;
+	}
+}
+
+void BinaryTree::deleteSubNode(Node* root)
+{
+	deleteAllNode(root);
 }
 
 bool BinaryTree::isEmpty()
@@ -327,6 +337,11 @@ int BinaryTree::countNode(Node* root)
 	return keys.size();
 }
 
+int BinaryTree::size()
+{
+	return countNode(m_root);
+}
+
 int BinaryTree::minKey(Node* root)
 {
 	std::vector<int> keys;
@@ -375,5 +390,10 @@ void BinaryTree::horizontalOutputTree(Node* root, int leftField, int distanceLev
 	std::cout << std::string(leftField, ' ') << root->key() << std::endl;
 	horizontalOutputTree(root->leftChild(), leftField + distanceLevel, distanceLevel);
 
+}
+
+void BinaryTree::print()
+{
+	horizontalOutputTree(m_root);
 }
 

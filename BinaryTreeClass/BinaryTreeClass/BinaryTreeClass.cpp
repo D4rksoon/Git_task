@@ -1,5 +1,6 @@
 ﻿#include <iostream>
 #include "BinaryTree.h"
+#include "BinaryTreeTester.h"
 
 int main()
 {
@@ -53,4 +54,9 @@ int main()
     
     //int height = tree.heightTree(tree.root());
     //std::cout << "height: " << height;
+
+    BinaryTreeTester tester;
+    for (int size = 10; size < 50; size += 10) {
+        tester.test(size);
+    }
 }

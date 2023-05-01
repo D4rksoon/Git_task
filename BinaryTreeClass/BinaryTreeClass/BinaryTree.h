@@ -1,7 +1,10 @@
 #pragma once
 #include <vector>
+#include <random>
+#include <iostream>
 class BinaryTree
 {
+public:
 	class Node // private
 	{
 	public:
@@ -45,7 +48,6 @@ class BinaryTree
 		Node* m_rightChild;
 	};
 protected:
-	void clear(Node* root);
 	Node* replaceLeaf(Node* root);
 
 public:
@@ -61,8 +63,10 @@ public:
 	Node* addNode(int key);
 	Node* addNode(Node* root, int key);
 	bool deleteNode(Node* root, int key);
+	bool deleteNode(int key);
+	void clear();
 	void deleteAllNode(Node* root);
-	void deleteSubNode();
+	void deleteSubNode(Node* root);
 	bool isEmpty();
 	Node* searchNLR(Node* root, int key);
 	Node* searchParent(Node* root, Node* node);
@@ -70,10 +74,12 @@ public:
 	int heightTree(Node* root);
 	void allKeys(std::vector<int>& keys, Node* root);
 	int countNode(Node* root);
+	int size();
 	int minKey(Node* root);
 	int maxKey(Node* root);
 	void leafsTree(std::vector<int>& keys, Node* root);
 	void horizontalOutputTree(Node* root, int leftField = 0, int distanceLevel = 8);
+	void print();
 	void travelNLR(Node* root);
 
 private:
