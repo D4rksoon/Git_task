@@ -43,7 +43,12 @@ void BinaryTree::travelNLR(Node* root)
 
 BinaryTree::BinaryTree(const int key)
 {
-	m_root = new Node(key);
+	if (key == 0) {
+		m_root = nullptr;
+	}
+	else {
+		m_root = new Node(key);
+	}
 }
 
 BinaryTree::~BinaryTree()
@@ -89,6 +94,11 @@ BinaryTree& BinaryTree::operator=(const BinaryTree& other)
 }
 
 BinaryTree::Node* BinaryTree::root()
+{
+	return m_root;
+}
+
+const BinaryTree::Node* BinaryTree::root() const
 {
 	return m_root;
 }
@@ -285,7 +295,7 @@ BinaryTree::Node* BinaryTree::searchParent(Node* root, Node* node)
 	return parent;
 }
 
-void BinaryTree::printKey(Node* root)
+void BinaryTree::printKey(BinaryTree* tree)
 {
 	/*Node* replaceNode = root;
 	Node* parent = root;
@@ -296,11 +306,14 @@ void BinaryTree::printKey(Node* root)
 		std::cout << "KEY ReplaceNode " << replaceNode->key() << "\n";
 	}
 	*/
-	Node* tmp = replaceLeaf(root);
-	std::cout << "RightLeaf " << tmp->key() << '\n';
+	//Node* tmp = replaceLeaf(root);
+	//std::cout << "RightLeaf " << tmp->key() << '\n';
+
+	std::vector<const BinaryTree::Node*> nodes;
+	nodes.push_back(tree->root());
 }
 
-int BinaryTree::heightTree(Node* root)
+int BinaryTree::heightTree(Node* root) const
 {
 	if (root->leftChild() == nullptr and root->rightChild() == nullptr) {
 		return 1;
@@ -318,7 +331,7 @@ int BinaryTree::heightTree(Node* root)
 	}
 }
 
-int BinaryTree::height()
+int BinaryTree::height() const
 {
 	return heightTree(m_root);
 }
@@ -351,7 +364,12 @@ bool BinaryTree::isBalanceTree(Node* root)
 	return false;
 }
 
-void BinaryTree::allKeys(std::vector<int>& keys, Node* root)
+bool BinaryTree::isBalanceTree()
+{
+	return isBalanceTree(m_root);
+}
+
+void BinaryTree::allKeys(std::vector<int>& keys, Node* root) const
 {
 	if (!root)
 	{
@@ -363,21 +381,24 @@ void BinaryTree::allKeys(std::vector<int>& keys, Node* root)
 	allKeys(keys, root->rightChild());
 }
 
-std::vector<int> BinaryTree::allKeys()
+std::vector<int> BinaryTree::allKeys() const
 {
 	std::vector<int> keys;
 	allKeys(keys, m_root);
 	return std::vector<int>(keys);
 }
 
-int BinaryTree::size(Node* root)
+int BinaryTree::size(Node* root) const
 {
+	if (root == nullptr) {
+		return 0;
+	}
 	std::vector<int> keys;
 	allKeys(keys, root);
 	return keys.size();
 }
 
-int BinaryTree::size()
+int BinaryTree::size() const
 {
 	return size(m_root);
 }

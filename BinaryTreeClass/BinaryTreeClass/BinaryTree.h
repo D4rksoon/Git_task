@@ -23,7 +23,11 @@ class BinaryTree
 		{
 			m_key = key;
 		}
-		Node* leftChild() const
+		Node* leftChild()
+		{
+			return m_leftChild;
+		}
+		const Node* leftChild() const
 		{
 			return m_leftChild;
 		}
@@ -31,7 +35,11 @@ class BinaryTree
 		{
 			m_leftChild = newChild;
 		}
-		Node* rightChild() const
+		Node* rightChild()
+		{
+			return m_rightChild;
+		}
+		const Node* rightChild() const
 		{
 			return m_rightChild;
 		}
@@ -45,6 +53,7 @@ class BinaryTree
 		int m_key = 0;
 		Node* m_leftChild;
 		Node* m_rightChild;
+		friend class BinaryTree;
 	};
 protected:
 	Node* replaceLeaf(Node* root);
@@ -53,10 +62,11 @@ protected:
 	void deleteAllNode(Node* root);
 	Node* searchNLR(Node* root, int key);
 	Node* searchParent(Node* root, Node* node);
-	int heightTree(Node* root);
+	int heightTree(Node* root) const;
 	int heightKey(Node* root, int key, int level);
-	void allKeys(std::vector<int>& keys, Node* root);
-	int size(Node* root);
+	bool isBalanceTree(Node* root);
+	void allKeys(std::vector<int>& keys, Node* root) const;
+	int size(Node* root) const;
 	int minKey(Node* root);
 	int maxKey(Node* root);
 	int sumKeys(Node* root);
@@ -71,17 +81,18 @@ public:
 	BinaryTree(const BinaryTree& other);
 	BinaryTree& operator=(const BinaryTree&);
 	Node* root();
+	const Node* root() const;
 	Node* addNode(int key);
 	bool deleteNode(int key);
 	void clear();
 	bool isEmpty();
 	Node* searchNLR(int key);
-	void printKey(Node* root);
-	int height();
+	void printKey(BinaryTree* tree);
+	int height() const;
 	int heightKey(int key);
-	bool isBalanceTree(Node* root);
-	std::vector<int> allKeys();
-	int size();
+	bool isBalanceTree();
+	std::vector<int> allKeys() const;
+	int size() const;
 	int minKey();
 	int maxKey();
 	int sumKeys();

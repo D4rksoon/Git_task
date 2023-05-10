@@ -6,16 +6,23 @@ int main()
 {
     setlocale(0, "");
     srand(time(0));
-    const int N = 6;
-    BinaryTree tree;
+
+    BinaryTreeTester tester;
+    for (int size = 10; size < 30; size += 10) {
+        tester.test(size);
+    }
+
+    /*const int N = 6;
+    BinaryTree tree(100);
     BinaryTree tree1;
-    tree.root()->setKey(100);
     for (int i = 1; i <= N; i++) {
         tree.addNode(i);
-    }
-    tree.print();
+    }*/
+    //tree.print();
 
     std::cout << "\n---------------------\n";
+    
+
 
     //tree.printKey(tree.root());
 
@@ -32,9 +39,9 @@ int main()
 
     }*/
 
-    if (tree.isBalanceTree(tree.root())) {
+    /*if (tree.isBalanceTree() {
         std::cout << "itsBalanseTree!!! ";
-    }
+    }*/
     
     //BinaryTree treeC(tree);
     //BinaryTree treeC = tree;
