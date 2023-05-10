@@ -5,6 +5,8 @@
 class BinaryTree
 {
 	friend class BinaryTreeTester;
+	friend class SearchTree;
+
 	class Node // private
 	{
 	public:
@@ -57,7 +59,7 @@ class BinaryTree
 	};
 protected:
 	Node* replaceLeaf(Node* root);
-	Node* addNode(Node* root, int key);
+	virtual Node* addNode(Node* root, int key);
 	bool deleteNode(Node* root, int key);
 	void deleteAllNode(Node* root);
 	Node* searchNLR(Node* root, int key);
@@ -77,7 +79,7 @@ protected:
 
 public:
 	BinaryTree(const int key = 0);
-	~BinaryTree();
+	virtual ~BinaryTree();
 	BinaryTree(const BinaryTree& other);
 	BinaryTree& operator=(const BinaryTree&);
 	Node* root();
