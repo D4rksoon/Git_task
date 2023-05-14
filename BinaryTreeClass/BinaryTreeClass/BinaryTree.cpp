@@ -93,6 +93,15 @@ BinaryTree& BinaryTree::operator=(const BinaryTree& other)
 	return *this;
 }
 
+BinaryTree& BinaryTree::copySubTreeByNode(Node* root)
+{
+	this->clear();
+	m_root = new Node(root->key());
+	copySubTree(root->leftChild(), m_root, 0);
+	copySubTree(root->rightChild(), m_root, 1);
+	return *this;
+}
+
 BinaryTree::Node* BinaryTree::root()
 {
 	return m_root;
@@ -132,7 +141,7 @@ BinaryTree::Node* BinaryTree::addNode(int key)
 	}
 }
 
-bool BinaryTree::deleteNode(Node* root, int key) //TODO
+bool BinaryTree::deleteNode(Node* root, int key)
 {
 	Node* node = searchNLR(root, key);
 	Node* nodeParent = searchParent(root, node);
@@ -295,24 +304,6 @@ BinaryTree::Node* BinaryTree::searchParent(Node* root, Node* node)
 	return parent;
 }
 
-void BinaryTree::printKey(BinaryTree* tree)
-{
-	/*Node* replaceNode = root;
-	Node* parent = root;
-	for (int i = 1; i < 7; i++) {
-		replaceNode = searchNLR(root, i);
-		parent = searchParent(root, replaceNode);
-		std::cout << "KEY Parent " << parent->key() << "\n";
-		std::cout << "KEY ReplaceNode " << replaceNode->key() << "\n";
-	}
-	*/
-	//Node* tmp = replaceLeaf(root);
-	//std::cout << "RightLeaf " << tmp->key() << '\n';
-
-	std::vector<const BinaryTree::Node*> nodes;
-	nodes.push_back(tree->root());
-}
-
 int BinaryTree::heightTree(Node* root) const
 {
 	if (root->leftChild() == nullptr and root->rightChild() == nullptr) {
@@ -359,8 +350,11 @@ bool BinaryTree::isBalanceTree(Node* root)
 	Node* left = root->leftChild();
 	Node* right = root->rightChild();
 	if (abs(heightTree(left) - heightTree(right)) <= 1) {
-		return true;
+		if (abs(size(left) - size(right)) <= 1) {
+			return true;
+		}
 	}
+
 	return false;
 }
 

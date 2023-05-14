@@ -1,27 +1,46 @@
 ﻿#include <iostream>
 #include "BinaryTree.h"
+#include "SearchTree.h"
 #include "BinaryTreeTester.h"
+
 
 int main()
 {
     setlocale(0, "");
     srand(time(0));
 
-    BinaryTreeTester tester;
+    /*BinaryTreeTester tester;
     for (int size = 10; size < 30; size += 10) {
         tester.test(size);
+    }*/
+
+    SearchTree sTree(16);
+    SearchTree sTree1(11);
+    const int N = 6;
+    int value = 0;
+    for (int i = 1; i < N; i++) {
+        value += 5;
+        sTree.addNode(value);
     }
+    sTree.print();
+
+    std::cout << "\n---------------------\n";
+
+
+    //std::cout << "Max " << sTree.maxKey() << '\n';
+    //std::cout << "Min " << sTree.minKey() << '\n';
 
     /*const int N = 6;
     BinaryTree tree(100);
     BinaryTree tree1;
     for (int i = 1; i <= N; i++) {
         tree.addNode(i);
-    }*/
-    //tree.print();
+    }
+    tree.print();*/
 
     std::cout << "\n---------------------\n";
     
+
 
 
     //tree.printKey(tree.root());

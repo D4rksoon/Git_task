@@ -60,7 +60,7 @@ class BinaryTree
 protected:
 	Node* replaceLeaf(Node* root);
 	virtual Node* addNode(Node* root, int key);
-	bool deleteNode(Node* root, int key);
+	virtual bool deleteNode(Node* root, int key);
 	void deleteAllNode(Node* root);
 	Node* searchNLR(Node* root, int key);
 	Node* searchParent(Node* root, Node* node);
@@ -82,6 +82,7 @@ public:
 	virtual ~BinaryTree();
 	BinaryTree(const BinaryTree& other);
 	BinaryTree& operator=(const BinaryTree&);
+	BinaryTree& copySubTreeByNode(Node* root);
 	Node* root();
 	const Node* root() const;
 	Node* addNode(int key);
@@ -89,7 +90,6 @@ public:
 	void clear();
 	bool isEmpty();
 	Node* searchNLR(int key);
-	void printKey(BinaryTree* tree);
 	int height() const;
 	int heightKey(int key);
 	bool isBalanceTree();
