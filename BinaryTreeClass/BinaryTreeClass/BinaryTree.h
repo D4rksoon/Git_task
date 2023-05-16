@@ -1,6 +1,12 @@
 #pragma once
+#include <vector>
+#include <random>
+#include <iostream>
 class BinaryTree
 {
+	friend class BinaryTreeTester;
+	friend class SearchTree;
+
 	class Node // private
 	{
 	public:
@@ -19,7 +25,11 @@ class BinaryTree
 		{
 			m_key = key;
 		}
-		Node* leftChild() const
+		Node* leftChild()
+		{
+			return m_leftChild;
+		}
+		const Node* leftChild() const
 		{
 			return m_leftChild;
 		}
@@ -27,7 +37,11 @@ class BinaryTree
 		{
 			m_leftChild = newChild;
 		}
-		Node* rightChild() const
+		Node* rightChild()
+		{
+			return m_rightChild;
+		}
+		const Node* rightChild() const
 		{
 			return m_rightChild;
 		}
@@ -38,38 +52,55 @@ class BinaryTree
 
 
 	private:
-		friend class BinaryTree;
 		int m_key = 0;
 		Node* m_leftChild;
 		Node* m_rightChild;
+		friend class BinaryTree;
 	};
 protected:
-	void clear(Node* root);
-
-public:
-	
-
-	BinaryTree(const int key = 0);
-	~BinaryTree();
-	BinaryTree(const Node& other);
-	BinaryTree& operator=(const BinaryTree&);
-	Node* root();
-	Node* addNode(int key);
-	Node* addNode(Node* root, int key);
-	bool deleteNode(Node* root, int key);
+	Node* replaceLeaf(Node* root);
+	virtual Node* addNode(Node* root, int key);
+	virtual bool deleteNode(Node* root, int key);
 	void deleteAllNode(Node* root);
-	void deleteSubNode();
-	bool isEmpty();
 	Node* searchNLR(Node* root, int key);
-	Node* copySubtreeNode(Node* root);
-	int heightTree(Node* root);
-	int countNode();
-	int minKeyInBinaryTree();
-	int maxKeyInBinaryTree();
-	//std::vector<int> allKey();
+	Node* searchParent(Node* root, Node* node);
+	int heightTree(Node* root) const;
+	int heightKey(Node* root, int key, int level);
+	bool isBalanceTree(Node* root);
+	void allKeys(std::vector<int>& keys, Node* root) const;
+	int size(Node* root) const;
+	int minKey(Node* root);
+	int maxKey(Node* root);
+	int sumKeys(Node* root);
 	void horizontalOutputTree(Node* root, int leftField = 0, int distanceLevel = 8);
+	void copySubTree(Node* copiedTree, Node* currentTree, int k);
+	void leafsTree(std::vector<int>& keys, Node* root);
 	void travelNLR(Node* root);
 
+public:
+	BinaryTree(const int key = 0);
+	virtual ~BinaryTree();
+	BinaryTree(const BinaryTree& other);
+	BinaryTree& operator=(const BinaryTree&);
+	BinaryTree& copySubTreeByNode(Node* root);
+	Node* root();
+	const Node* root() const;
+	Node* addNode(int key);
+	bool deleteNode(int key);
+	void clear();
+	bool isEmpty();
+	Node* searchNLR(int key);
+	int height() const;
+	int heightKey(int key);
+	bool isBalanceTree();
+	std::vector<int> allKeys() const;
+	int size() const;
+	int minKey();
+	int maxKey();
+	int sumKeys();
+	std::vector<int> leafsTree();
+	void print();
+	void printKey(Node* root, int key);
 
 private:
 	Node* m_root = nullptr;
