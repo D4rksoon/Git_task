@@ -7,35 +7,35 @@
 int main()
 {
     setlocale(0, "");
-    //srand(time(0));
+    srand(time(0));
 
-    /*BinaryTreeTester tester;
+    BinaryTreeTester tester;
     for (int size = 10; size < 30; size += 10) {
         tester.test(size);
-    }*/
+    }
 
-    SearchTree sTree(16);
-    SearchTree sTree1(11);
-    const int N = 6;
-    int value = 0;
-    /*for (int i = 1; i < N; i++) {
-        value = rand() % 50;
-        sTree.addNode(value);
-    }*/
-    sTree.addNode(15);
-    sTree.addNode(10);
-    sTree.addNode(5);
-    sTree.addNode(20);
-    sTree.addNode(18);
-    sTree.addNode(22);
-    sTree.addNode(19);
-    sTree.addNode(21);
-    sTree.print();
+    //SearchTree sTree(16);
+    //SearchTree sTree1(11);
+    //const int N = 6;
+    //int value = 0;
+    ///*for (int i = 1; i < N; i++) {
+    //    value = rand() % 50;
+    //    sTree.addNode(value);
+    //}*/
+    //sTree.addNode(15);
+    //sTree.addNode(10);
+    //sTree.addNode(5);
+    //sTree.addNode(20);
+    //sTree.addNode(18);
+    //sTree.addNode(22);
+    //sTree.addNode(19);
+    //sTree.addNode(21);
+    //sTree.print();
 
-    std::cout << "\n---------------------\n";
+    //std::cout << "\n---------------------\n";
 
-    sTree.BinaryTree::deleteNode(16);
-    sTree.print();
+    //sTree.BinaryTree::deleteNode(16);
+    //sTree.print();
 
     /*sTree.printKey(sTree.root(), 15);
     sTree.printKey(sTree.root(), 10);
@@ -45,7 +45,7 @@ int main()
     sTree.printKey(sTree.root(), 22);
     sTree.printKey(sTree.root(), 19);
     sTree.printKey(sTree.root(), 21);*/
-    std::cout << "\n---------------------\n";
+    //std::cout << "\n---------------------\n";
 
     //std::cout << "Key " << sTree.searchNode(15)->key() << '\n';
     // 
@@ -58,9 +58,11 @@ int main()
     for (int i = 1; i <= N; i++) {
         tree.addNode(i);
     }
-    tree.print();*/
+    tree.print();
 
-    
+    for (int i = 1; i <= N; i++) {
+        tree.printKeys(tree.root(), i);
+    }*/
 
 
 

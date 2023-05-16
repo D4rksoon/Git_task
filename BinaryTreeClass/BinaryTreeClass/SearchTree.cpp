@@ -17,17 +17,17 @@ SearchTree::SearchTree(const SearchTree& other)
 	copySubTree(other.m_root->rightChild(), m_root, 1); // 1 - right
 }
 
-SearchTree& SearchTree::operator=(const SearchTree& other)
-{
-	if (this == &other) {
-		return *this;
-	}
-	this->clear();
-	m_root = new Node(other.m_root->key());
-	copySubTree(other.m_root->leftChild(), m_root, 0);
-	copySubTree(other.m_root->rightChild(), m_root, 1);
-	return *this;
-}
+//SearchTree& SearchTree::operator=(const SearchTree& other)
+//{
+//	if (this == &other) {
+//		return *this;
+//	}
+//	this->clear();
+//	m_root = new Node(other.m_root->key());
+//	copySubTree(other.m_root->leftChild(), m_root, 0);
+//	copySubTree(other.m_root->rightChild(), m_root, 1);
+//	return *this;
+//}
 
 BinaryTree::Node* SearchTree::addNode(Node* root, int key)
 {
@@ -87,7 +87,6 @@ BinaryTree::Node* SearchTree::searchParent(Node* root, Node* node)
 	}
 	return parent;
 }
-	
 
 BinaryTree::Node* SearchTree::searchNode(int key)
 {
@@ -96,9 +95,6 @@ BinaryTree::Node* SearchTree::searchNode(int key)
 
 bool SearchTree::deleteNode(Node* root, int key)
 {
-	//std::cout << "!!!!!" << '\n';
-	printKey(root, key);
-
     Node* node = searchNode(root, key);
     Node* nodeParent = searchParent(root, node);
 
@@ -107,13 +103,12 @@ bool SearchTree::deleteNode(Node* root, int key)
 	}
 	// У удаляемого узла - нет потомков
 	if (node->leftChild() == nullptr and node->rightChild() == nullptr) {
-		//std::cout << "[1]" << '\n';
+
 		delete node;
 		return true;
 	}
 	// У удаляемого узла - один потомок
 	else if (node->leftChild() != nullptr and node->rightChild() == nullptr) {
-		//std::cout << "[2]" << '\n';
 
 		Node* replacementNode = node->leftChild();
 
@@ -131,7 +126,6 @@ bool SearchTree::deleteNode(Node* root, int key)
 		}
 	}
 	else if (node->rightChild() != nullptr and node->leftChild() == nullptr) {
-		//std::cout << "[2]" << '\n';
 
 		Node* replacementNode = node->rightChild();
 
@@ -148,7 +142,6 @@ bool SearchTree::deleteNode(Node* root, int key)
 	}
 	// У удаляемого узла - 2 потомка
 	else if (node->rightChild() != nullptr and node->leftChild() != nullptr) {
-		//std::cout << "[3]" << '\n';
 		Node* replacementNode = maxNode(node->leftChild());
 		if (nodeParent->leftChild()->key() == key) {
 			//nodeParent->setLeftChild(nullptr);

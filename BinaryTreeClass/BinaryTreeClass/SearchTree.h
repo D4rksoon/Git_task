@@ -16,7 +16,8 @@ protected:
 public:
 	SearchTree(const int key = 0);
 	SearchTree(const SearchTree& other);
-	SearchTree& operator= (const SearchTree&);
+	SearchTree& operator= (const SearchTree&) = default;
+	//SearchTree& operator= (const SearchTree&);
 	~SearchTree() override = default;
 	Node* addNode(int key);
 	bool deleteNode(int key);

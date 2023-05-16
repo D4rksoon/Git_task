@@ -5,6 +5,7 @@
 class BinaryTree
 {
 	friend class BinaryTreeTester;
+	friend class SearchTreeTester;
 	friend class SearchTree;
 
 	class Node // private
@@ -58,10 +59,11 @@ class BinaryTree
 		friend class BinaryTree;
 	};
 protected:
+	void travelNLR(Node* root);
 	Node* replaceLeaf(Node* root);
 	virtual Node* addNode(Node* root, int key);
 	virtual bool deleteNode(Node* root, int key);
-	void deleteAllNode(Node* root);
+	void deleteAllNode(Node* root) const;
 	Node* searchNLR(Node* root, int key);
 	Node* searchParent(Node* root, Node* node);
 	int heightTree(Node* root) const;
@@ -73,9 +75,8 @@ protected:
 	int maxKey(Node* root);
 	int sumKeys(Node* root);
 	void horizontalOutputTree(Node* root, int leftField = 0, int distanceLevel = 8);
-	void copySubTree(Node* copiedTree, Node* currentTree, int k);
+	void copySubTree(Node* copiedTree, Node* currentTree, int k) const;
 	void leafsTree(std::vector<int>& keys, Node* root);
-	void travelNLR(Node* root);
 
 public:
 	BinaryTree(const int key = 0);
@@ -87,7 +88,7 @@ public:
 	const Node* root() const;
 	Node* addNode(int key);
 	bool deleteNode(int key);
-	void clear();
+	void clear() const;
 	bool isEmpty();
 	Node* searchNLR(int key);
 	int height() const;
@@ -100,7 +101,7 @@ public:
 	int sumKeys();
 	std::vector<int> leafsTree();
 	void print();
-	void printKey(Node* root, int key);
+	void printKeys(Node* root, int key);
 
 private:
 	Node* m_root = nullptr;

@@ -10,7 +10,7 @@ void BinaryTreeTester::test(const int size)
     destructor();
     remove();
     clear();
-    //assign();
+    assign();
     height();
 }
 
@@ -115,45 +115,60 @@ void BinaryTreeTester::check_clear(const BinaryTree* tree, const int size)
     assert(tree->size() == size);
 }
 
-//void BinaryTreeTester::assign()
-//{
-//    BinaryTree tree1;
-//
-//    for (int i = 0; i < m_maxSize; ++i) {
-//        tree1.addNode(i);
-//    }
-//
-//    BinaryTree tree2 = tree1; //Конструктор копирования
-//
-//    std::vector<BinaryTree::Node*> tree1Nodes = treeNodes(tree1);
-//    std::vector<BinaryTree::Node*> tree2Nodes = treeNodes(tree2);
-//
-//    //FixMe: доделать проверку
-//
-//    tree1 = tree2; //Присваивание
-//
-//    tree1Nodes = treeNodes(tree1);
-//    tree2Nodes = treeNodes(tree2);
-//
-//    //FixMe: доделать проверку
-//}
-//
-//std::vector<const BinaryTree::Node*> BinaryTreeTester::treeNodes(const BinaryTree* tree)
-//{
-//    std::vector<const BinaryTree::Node*> nodes;
-//    std::vector<const BinaryTree::Node*> nodesToProcess;
-//    nodesToProcess.push_back(tree->root());
-//    while (!nodesToProcess.empty()) {
-//        const BinaryTree::Node* node = nodesToProcess.front();
-//        if (node != nullptr) {
-//            nodesToProcess.push_back(node->leftChild());
-//            nodesToProcess.push_back(node->rightChild());
-//            nodes.push_back();
-//        }
-//        nodesToProcess.pop();
-//    }
-//    return nodes;
-//}
+void BinaryTreeTester::assign()
+{
+    BinaryTree* tree1 = allocateTree();
+    BinaryTree* tree2 = allocateTree();
+
+    for (int i = 0; i < m_maxSize; ++i) {
+        tree1->addNode(i);
+    }
+
+    tree2 = tree1; //Конструктор копирования
+
+    check_assign(tree2, m_maxSize);
+    if (!check_copy(tree1, tree2)) {
+        throw("Error:copy constructor");
+    }
+
+    deallocateTree(tree1);
+    deallocateTree(tree2);
+}
+
+bool BinaryTreeTester::check_copy(BinaryTree* tree1, BinaryTree* tree2)
+{
+    bool check = false;
+    std::vector<BinaryTree::Node*> tree1Nodes;
+    std::vector<BinaryTree::Node*> tree2Nodes;
+    treeNodes(tree1Nodes, tree1->root());
+    treeNodes(tree2Nodes, tree1->root());
+    for (int i = 0; i < m_maxSize; i++) {
+        if (tree1Nodes[i]->key() == tree2Nodes[i]->key()) {
+            if (tree1Nodes[i] != tree2Nodes[i]) {
+                check = true;
+            }
+        }
+    }
+    return check;
+}
+void BinaryTreeTester::treeNodes(std::vector<BinaryTree::Node*>& keys, BinaryTree::Node* root)
+{
+    if (!root)
+    {
+        return;
+    }
+
+    treeNodes(keys, root->leftChild());
+    keys.push_back(root);
+    treeNodes(keys, root->rightChild());
+}
+
+void BinaryTreeTester::check_assign(const BinaryTree* tree, const int size)
+{
+    assert(tree->size() == size);
+
+}
+
 void BinaryTreeTester::height()
 {
     height_trivialCases();
@@ -256,4 +271,6 @@ void BinaryTreeTester::height_longRandomZigzagSubtrees()
         check_height(longTree, i + 1);
     }
 }
+
+
 

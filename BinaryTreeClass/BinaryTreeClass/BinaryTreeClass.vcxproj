@@ -143,11 +143,13 @@
     <ClCompile Include="BinaryTreeClass.cpp" />
     <ClCompile Include="BinaryTreeTester.cpp" />
     <ClCompile Include="SearchTree.cpp" />
+    <ClCompile Include="SearchTreeTester.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BinaryTree.h" />
     <ClInclude Include="BinaryTreeTester.h" />
     <ClInclude Include="SearchTree.h" />
+    <ClInclude Include="SearchTreeTester.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
