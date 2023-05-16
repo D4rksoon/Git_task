@@ -485,3 +485,11 @@ void BinaryTree::print()
 	horizontalOutputTree(m_root);
 }
 
+void BinaryTree::printKey(Node* root, int key)
+{
+	Node* node = searchNLR(root, key);
+	Node* nodeParent = searchParent(root, node);
+	std::cout << "Node " << node->key() << '\n';
+	std::cout << "Parent " << nodeParent->key() << '\n';
+	//std::cout << "Key " << root->key() << '\n';
+}

@@ -7,7 +7,7 @@
 int main()
 {
     setlocale(0, "");
-    srand(time(0));
+    //srand(time(0));
 
     /*BinaryTreeTester tester;
     for (int size = 10; size < 30; size += 10) {
@@ -18,15 +18,37 @@ int main()
     SearchTree sTree1(11);
     const int N = 6;
     int value = 0;
-    for (int i = 1; i < N; i++) {
-        value += 5;
+    /*for (int i = 1; i < N; i++) {
+        value = rand() % 50;
         sTree.addNode(value);
-    }
+    }*/
+    sTree.addNode(15);
+    sTree.addNode(10);
+    sTree.addNode(5);
+    sTree.addNode(20);
+    sTree.addNode(18);
+    sTree.addNode(22);
+    sTree.addNode(19);
+    sTree.addNode(21);
     sTree.print();
 
     std::cout << "\n---------------------\n";
 
+    sTree.BinaryTree::deleteNode(16);
+    sTree.print();
 
+    /*sTree.printKey(sTree.root(), 15);
+    sTree.printKey(sTree.root(), 10);
+    sTree.printKey(sTree.root(), 5);
+    sTree.printKey(sTree.root(), 20);
+    sTree.printKey(sTree.root(), 18);
+    sTree.printKey(sTree.root(), 22);
+    sTree.printKey(sTree.root(), 19);
+    sTree.printKey(sTree.root(), 21);*/
+    std::cout << "\n---------------------\n";
+
+    //std::cout << "Key " << sTree.searchNode(15)->key() << '\n';
+    // 
     //std::cout << "Max " << sTree.maxKey() << '\n';
     //std::cout << "Min " << sTree.minKey() << '\n';
 
@@ -38,7 +60,6 @@ int main()
     }
     tree.print();*/
 
-    std::cout << "\n---------------------\n";
     
 
 

@@ -65,6 +65,30 @@ BinaryTree::Node* SearchTree::searchNode(Node* root, int key)
     }
 }
 
+BinaryTree::Node* SearchTree::searchParent(Node* root, Node* node)
+{
+	if (root == node) {
+		return nullptr;
+	}
+	Node* current = root;
+	Node* parent = nullptr;      
+	while (current != nullptr)
+	{
+		if (node == current) {
+			break;
+		}
+		parent = current;
+		if (root->key() > node->key()){
+			current = current->leftChild();
+		}
+		else {
+			current = current->rightChild();
+		}	
+	}
+	return parent;
+}
+	
+
 BinaryTree::Node* SearchTree::searchNode(int key)
 {
 	return searchNode(m_root, key);
@@ -72,35 +96,34 @@ BinaryTree::Node* SearchTree::searchNode(int key)
 
 bool SearchTree::deleteNode(Node* root, int key)
 {
+	//std::cout << "!!!!!" << '\n';
+	printKey(root, key);
+
     Node* node = searchNode(root, key);
     Node* nodeParent = searchParent(root, node);
+
 	if (node == nullptr) {
 		return false;
 	}
 	// У удаляемого узла - нет потомков
 	if (node->leftChild() == nullptr and node->rightChild() == nullptr) {
-		if (nodeParent->leftChild()->key() == key) {
-			nodeParent->setLeftChild(nullptr);
-		}
-		if (nodeParent->rightChild()->key() == key) {
-			nodeParent->setRightChild(nullptr);
-		}
+		//std::cout << "[1]" << '\n';
 		delete node;
 		return true;
 	}
 	// У удаляемого узла - один потомок
 	else if (node->leftChild() != nullptr and node->rightChild() == nullptr) {
+		//std::cout << "[2]" << '\n';
+
 		Node* replacementNode = node->leftChild();
 
 		if (nodeParent->leftChild()->key() == key) {
-			nodeParent->setLeftChild(nullptr);
 			delete node;
 			nodeParent->setLeftChild(replacementNode);
 			return true;
 
 		}
 		else {
-			nodeParent->setRightChild(nullptr);
 			delete node;
 			nodeParent->setRightChild(replacementNode);
 			return true;
@@ -108,16 +131,16 @@ bool SearchTree::deleteNode(Node* root, int key)
 		}
 	}
 	else if (node->rightChild() != nullptr and node->leftChild() == nullptr) {
+		//std::cout << "[2]" << '\n';
+
 		Node* replacementNode = node->rightChild();
 
 		if (nodeParent->leftChild()->key() == key) {
-			nodeParent->setLeftChild(nullptr);
 			delete node;
 			nodeParent->setLeftChild(replacementNode);
 			return true;
 		}
 		else {
-			nodeParent->setRightChild(nullptr);
 			delete node;
 			nodeParent->setRightChild(replacementNode);
 			return true;
@@ -125,11 +148,24 @@ bool SearchTree::deleteNode(Node* root, int key)
 	}
 	// У удаляемого узла - 2 потомка
 	else if (node->rightChild() != nullptr and node->leftChild() != nullptr) {
-		Node* replacementNode = replaceLeaf(node);
-		Node* replacementNodeParent = searchParent(node, replacementNode);
-
-
-
+		//std::cout << "[3]" << '\n';
+		Node* replacementNode = maxNode(node->leftChild());
+		if (nodeParent->leftChild()->key() == key) {
+			//nodeParent->setLeftChild(nullptr);
+			replacementNode->setLeftChild(node->leftChild());
+			replacementNode->setRightChild(node->rightChild());
+			delete node;
+			nodeParent->setLeftChild(replacementNode);
+			return true;
+		}
+		else {
+			//nodeParent->setRightChild(nullptr);
+			replacementNode->setLeftChild(node->leftChild());
+			replacementNode->setRightChild(node->rightChild());
+			delete node;
+			nodeParent->setRightChild(replacementNode);
+			return true;
+		}
 	}
 	return false;
 }
@@ -146,6 +182,15 @@ SearchTree& SearchTree::copySubTreeByNode(Node* root)
 	copySubTree(root->leftChild(), m_root, 0);
 	copySubTree(root->rightChild(), m_root, 1);
 	return *this;
+}
+
+BinaryTree::Node* SearchTree::maxNode(Node* root)
+{
+	Node* max = root;
+	if (root->rightChild()) {
+		return maxNode(root->rightChild());
+	}
+	return max;
 }
 
 int SearchTree::maxKey(Node* root)
@@ -179,6 +224,15 @@ int SearchTree::minKey(Node* root)
 int SearchTree::minKey()
 {
 	return minKey(m_root);
+}
+
+void SearchTree::printKey(Node* root, int key)
+{
+	Node* node = searchNode(root, key);
+	Node* nodeParent = searchParent(root, node);
+	std::cout << "Node " << node->key() << '\n';
+	std::cout << "Parent " << nodeParent->key() << '\n';
+	//std::cout << "Key " << root->key() << '\n';
 }
 
 

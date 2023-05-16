@@ -100,6 +100,7 @@ public:
 	int sumKeys();
 	std::vector<int> leafsTree();
 	void print();
+	void printKey(Node* root, int key);
 
 private:
 	Node* m_root = nullptr;
