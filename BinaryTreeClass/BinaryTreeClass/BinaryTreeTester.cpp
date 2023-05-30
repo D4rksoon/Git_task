@@ -127,29 +127,23 @@ void BinaryTreeTester::assign()
     tree2 = tree1; //Конструктор копирования
 
     check_assign(tree2, m_maxSize);
-    if (!check_copy(tree1, tree2)) {
-        throw("Error:copy constructor");
-    }
+    check_copy(tree1, tree2);
 
     deallocateTree(tree1);
     deallocateTree(tree2);
 }
 
-bool BinaryTreeTester::check_copy(BinaryTree* tree1, BinaryTree* tree2)
+void BinaryTreeTester::check_copy(BinaryTree* tree1, BinaryTree* tree2)
 {
-    bool check = false;
     std::vector<BinaryTree::Node*> tree1Nodes;
     std::vector<BinaryTree::Node*> tree2Nodes;
     treeNodes(tree1Nodes, tree1->root());
     treeNodes(tree2Nodes, tree1->root());
+    assert(tree1Nodes.size() == tree2Nodes.size());
     for (int i = 0; i < m_maxSize; i++) {
-        if (tree1Nodes[i]->key() == tree2Nodes[i]->key()) {
-            if (tree1Nodes[i] != tree2Nodes[i]) {
-                check = true;
-            }
-        }
+        assert(tree1Nodes[i]->key() == tree2Nodes[i]->key());
+        assert(tree1Nodes[i] != tree2Nodes[i]);
     }
-    return check;
 }
 void BinaryTreeTester::treeNodes(std::vector<BinaryTree::Node*>& keys, BinaryTree::Node* root)
 {

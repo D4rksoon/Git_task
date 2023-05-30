@@ -6,7 +6,7 @@ class BinaryTreeTester
 {
 public:
     BinaryTreeTester(const bool useConsoleOutput);
-    BinaryTreeTester() = default;
+    //BinaryTreeTester() = default;
     ~BinaryTreeTester() = default;
 
 	void test(const int size);
@@ -19,7 +19,7 @@ protected:
     virtual void check_clear(const BinaryTree* tree, const int size);
     virtual void check_assign(const BinaryTree* tree, const int size);
     void check_height(const BinaryTree& tree, const int size);
-    bool check_copy(BinaryTree* tree1, BinaryTree* tree2);
+    void check_copy(BinaryTree* tree1, BinaryTree* tree2);
 
 private:
     void deallocateTree(BinaryTree* tree);

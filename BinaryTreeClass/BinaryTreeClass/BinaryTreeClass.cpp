@@ -2,6 +2,7 @@
 #include "BinaryTree.h"
 #include "SearchTree.h"
 #include "BinaryTreeTester.h"
+#include "SearchTreeTester.h"
 
 
 int main()
@@ -9,10 +10,19 @@ int main()
     setlocale(0, "");
     srand(time(0));
 
-    BinaryTreeTester tester;
+    //BinaryTree tree1;
+    //BinaryTree tree2;
+    //tree2 = tree2.copySubTreeByNode(tree1.root()->leftChild());
+    //tree2 = tree1.copySubTreeByNode(tree1.root()->leftChild()); //better
+
+
+    /*BinaryTreeTester tester(false);
     for (int size = 10; size < 30; size += 10) {
         tester.test(size);
-    }
+    }*/
+
+    SearchTreeTester tester(false);
+    tester.test(40);
 
     //SearchTree sTree(16);
     //SearchTree sTree1(11);
@@ -58,13 +68,13 @@ int main()
     for (int i = 1; i <= N; i++) {
         tree.addNode(i);
     }
-    tree.print();
-
-    for (int i = 1; i <= N; i++) {
+    tree.print();*/
+   
+    /*for (int i = 1; i <= N; i++) {
         tree.printKeys(tree.root(), i);
     }*/
 
-
+    //tree.printKeys(tree.root(), 3);
 
     //tree.printKey(tree.root());
 
