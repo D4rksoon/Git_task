@@ -7,11 +7,21 @@ class HashTable
 
 public:
 	HashTable(int size);
+	HashTable(const HashTable& other);
+	HashTable& operator=(const HashTable& other);
+	std::vector<Node*> getNodes();
+	int operator[](int key);
 	~HashTable() = default;
+	void clear() const;
 	void setSize(const int size);
 	int getSize() const;
-	void insert(int key);
 	int hashCode(int key);
+	void insert(int key);
+	void insert2(int key);
+	void remove(int key);
+	bool searchKey(int key);
+	void print();
+
 
 
 private:
@@ -31,6 +41,7 @@ protected:
 			next = nullptr;
 		}
 		~Node() = default;
+
 
 	private:
 		int m_key = NULL;
