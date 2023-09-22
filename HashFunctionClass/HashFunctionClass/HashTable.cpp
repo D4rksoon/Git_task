@@ -2,40 +2,48 @@
 #include<vector>
 #include<iostream>
 
-HashTable::HashTable(int size)
-{
-	m_size = size;
-	Nodes.resize(size);
-}
+HashTable::HashTable(int size) :
+	m_size(size + 1),
+	Nodes(m_size, nullptr)
+{}
 
 HashTable::HashTable(const HashTable& other)
 {
 	m_size = other.m_size;
-	this->getNodes().resize(m_size);
+	Nodes.resize(m_size);
+
 	for (int i = 0; i < m_size; i++) {
-		/*Node* tmp = Nodes.at(i);
-		while (tmp != nullptr) {
-			this->insert(other.Nodes[i]->m_key);
+		//int k = other.Nodes[i]->key();
+		//std::string v = other.Nodes[i]->value();
+		//Nodes[i] = other.Nodes[i];
+		Nodes[i] = new Node(other.Nodes[i]->key(), other.Nodes[i]->value());
+
+		/*while (other.Nodes[i]->next != nullptr) {
+			this->insert(other.Nodes[i]->setKey(), other.Nodes[i]->setValue());
 			tmp = tmp->next;
-		}*/
-		Nodes[i] = other.Nodes[i];
+		}
+		Nodes[i] = other.Nodes[i];*/
 	}
+}
+
+HashTable::~HashTable()
+{
+	for (Node* node : Nodes) {
+		delete node;
+	}
+	//delete Nodes;
+
 }
 
 HashTable& HashTable::operator=(const HashTable& other)
 {
-	this->clear();
-	m_size = other.m_size;
-	this->getNodes().resize(m_size);
-	for (int i = 0; i < m_size; i++) {
-		/*Node* tmp = Nodes.at(i);
-		while (tmp != nullptr) {
-			this->insert(other.Nodes[i]->m_key);
-			tmp = tmp->next;
-		}*/
-		Nodes[i] = other.Nodes[i];
+	if (this == &other) {
+		return *this;
 	}
-	return *this;
+	this->clearTable();
+	HashTable table(other.getSize());
+
+	return table;
 }
 
 std::vector<HashTable::Node*> HashTable::getNodes()
@@ -43,30 +51,26 @@ std::vector<HashTable::Node*> HashTable::getNodes()
 	return Nodes;
 }
 
-int HashTable::operator[](int key)
+std::string& HashTable::operator[](int key)
 {
-	for (int i = 0; i < getSize(); i++) {
-		Node* tmp = Nodes.at(hashCode(key));
-		while (tmp != nullptr) {
-			if (tmp->m_key = key) {
-				return hashCode(key);
-			}
-			tmp = tmp->next;
+	std::string v;
+	int index = hashCode(key);
+	Node* tmp = Nodes[index];
+	while (tmp) {
+		if (tmp->key() == key) {
+			v = tmp->value();
+			return v;
 		}
+		tmp = tmp->next;
 	}
-	throw("Table have not this key");
 }
 
-void HashTable::clear() const
+void HashTable::clearTable()
 {
 	for (int i = 0; i < getSize(); i++) {
 		delete Nodes[i];
+		Nodes[i] = nullptr;
 	}
-}
-
-void HashTable::setSize(const int size)
-{
-	m_size = size;
 }
 
 int HashTable::getSize() const
@@ -76,66 +80,160 @@ int HashTable::getSize() const
 
 int HashTable::hashCode(int key)
 {
-	const double a = -(1 - sqrt(5) / 2); // константа 
-	int size = getSize(); // длина вектора значений
-	int N = size + (size % 10); // –азмер таблицы
-	return fmod(fmod(key, N) * a * N, N);
+	const double a = -(1 - sqrt(5)) / 2; // const a = 0.618034
+	int N = getSize(); // Table size
+	int hashCode = int((key % N) * a * N) % N;
+	//int hashCode2 = fmod(fmod(key, N) * a * N, N);
+	return hashCode;
 }
 
-void HashTable::insert(int key)
+void HashTable::insert_old(int key, std::string value)
 {
-	Node* tmp = Nodes.at(hashCode(key)); // index = hashCode
-	if (tmp == NULL) {
-		tmp = new Node(key);
+	int index = hashCode(key);
+	Node* newNode = new Node(key, value);
+	if (Nodes[index] == NULL) {
+		Nodes[index] = newNode;
 		return;
-	}
-	
+	}	
+	Node* tmp = Nodes[index];
 	while (tmp != nullptr) {
 		if (tmp->next == nullptr) {
-			tmp->next == new Node(key);
+			tmp->next = newNode;
 			return;
 		}
 		tmp = tmp->next;
 	}
 }
 
-void HashTable::insert2(int key)
+void HashTable::insert(int key, std::string value)
 {
-	Node* tmp = Nodes.at(hashCode(key));
-	if (tmp == NULL) {
-		tmp = new Node(key);
+	int index = hashCode(key);
+	Node* newNode = new Node(key, value);
+	if (Nodes[index] == NULL) {
+		Nodes[index] = newNode;
 		return;
 	}
-	for (int i = 0; i < getSize(); i++) {
-		if (Nodes[i] == NULL) {
-			Nodes[i] = new Node(key);
-			tmp->next = Nodes[i];
+	else {
+		Node* tmp = Nodes[index];
+		for (int i = 0; i < getSize(); i++) {
+			if (Nodes[i] == NULL) {
+				Nodes[i] = newNode;
+				while (tmp->next) {
+					tmp = tmp->next;
+				}
+				tmp->next = newNode;
+				return;
+			}
+		}
+		std::cerr << "Error: Table is full\n";
+	}
+}
+
+void HashTable::insertTest(int key, std::string value)
+{
+	int index = hashCode(key);
+	Node* newNode = new Node(key, value);
+	if (Nodes[index] == NULL) {
+		Nodes[index] = newNode;
+		return;
+	}
+	else {
+		Node* tmp = Nodes[index];
+		for (int i = 0; i < getSize(); i++) {
+			if (Nodes[i] == NULL) {
+				Nodes[i] = newNode;
+				while (tmp->next) {
+					tmp = tmp->next;
+				}
+				tmp->next = newNode;
+				return;
+			}		
+		}		
+		std::cerr << "Error: Table is full\n";
+	}
+}
+
+void HashTable::deleteTest(int key)
+{
+	int index = hashCode(key);
+	Node* tmp = Nodes[index];
+	if (tmp == NULL) {
+		return; // If key does not exist
+	}
+	// No collision
+	if (tmp->next == nullptr and tmp->key() == key) {
+		Nodes[index] = NULL;
+		delete tmp;
+		return;
+	}
+	// If does collision
+	else if (tmp->next != nullptr){
+		if (tmp->key() == key) {
+			Nodes[index] = tmp->next;
+			if (tmp->next->next) {
+				Nodes[index]->next = tmp->next->next;
+			}
+			delete tmp->next;
 			return;
 		}
+		else {
+			Node* prev = nullptr;
+			while (tmp) {
+				if (tmp->key() == key) {
+					prev->next = tmp->next;
+					delete tmp;
+				}
+				prev = tmp;
+				tmp = tmp->next;
+			}
+		}
 	}
+
 }
 
 void HashTable::remove(int key)
 {
-	Node* tmp = Nodes.at(hashCode(key));
-	if (tmp->m_key = key) {
+	int index = hashCode(key);
+	Node* tmp = Nodes[index];
+	if (tmp == NULL) {
+		return; // If key does not exist
+	}
+	// No collision
+	if (tmp->next == nullptr and tmp->key() == key) {
+		Nodes[index] = NULL;
 		delete tmp;
 		return;
 	}
-	while (tmp != nullptr) {
-		if (tmp->m_key = key) {
-			delete tmp;
+	// If does collision
+	else if (tmp->next != nullptr) {
+		if (tmp->key() == key) {
+			Nodes[index] = tmp->next;
+			if (tmp->next->next) {
+				Nodes[index]->next = tmp->next->next;
+			}
+			delete tmp->next;
 			return;
 		}
-		tmp = tmp->next;
+		else {
+			Node* prev = nullptr;
+			while (tmp) {
+				if (tmp->key() == key) {
+					prev->next = tmp->next; // !!! TODO
+					delete tmp;
+				}
+				prev = tmp;
+				tmp = tmp->next;
+			}
+		}
 	}
 }
 
 bool HashTable::searchKey(int key)
 {
-	Node* tmp = Nodes.at(hashCode(key));
-	while (tmp != nullptr) {
-		if (tmp->m_key = key) {
+	int index = hashCode(key);
+	Node* tmp = Nodes[index];
+	while (tmp) {
+		if (tmp->key() == key) {
 			return true;
 		}
 		tmp = tmp->next;
@@ -145,15 +243,36 @@ bool HashTable::searchKey(int key)
 
 void HashTable::print()
 {
+	std::cout << "HashTable - size" << getSize() << '\n';
 	for (int i = 0; i < getSize(); i++) {
-		std::cout << i << ' ';
-		Node* tmp = Nodes.at(i);
-		while (tmp != nullptr) {
-			std::cout << tmp->m_key << ' ';
-			tmp = tmp->next;
+		if (Nodes[i]) {
+			std::cout << "[" << i << "] Hash: " << hashCode(Nodes[i]->key());
+			std::cout << " Key: " << Nodes[i]->key();
+			std::cout << " Value: " << Nodes[i]->value() << '\n';
 		}
-		std::cout << '\n';
 	}
 }
 
+std::vector<int> HashTable::keys()
+{
+	std::vector<int> keys;
+	for (Node* node : Nodes) {
+		if (node) {
+			//ќткрыта€ адресаци€ | внутрении цепочки
+			keys.push_back(node->key());
+		}
+			
+		//¬нешнии цепочки
+		while (node != nullptr) {
+			keys.push_back(node->key());
+			node = node->next;
+		}
+		
+	}
+	return keys;
+}
+
+
+
+// test (сдулать тесты)
 
