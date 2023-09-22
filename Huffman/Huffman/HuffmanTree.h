@@ -1,32 +1,36 @@
-#pragma once
-#include<string>;
-#include<vector>;
-#include<set>
-#include<fstream>
-#include<sstream>
-#include<iostream>
-#include<list>
-#include<algorithm>
-#include<iterator>
+#pragma once 
+#include<string> 
+#include<list> 
+
 
 class HuffmanTree
 {
 protected:
 	class Node;
 public:
-	HuffmanTree();
-	~HuffmanTree();
+	HuffmanTree() = default;
+	~HuffmanTree() = default;
 	void build(const std::string& text);
-	double encode(const std::string& text, std::string& encodedText);
+	void encode(Node* root, const std::string encodeText);
 	bool decode(const std::string& encodedText, std::string& decodedText) const;
-	void Table(const std::string& text, int Tab[256]);
+	void Table(const std::string& text, int* Tab);
+	void createAndSortList(const std::string& text, std::list<Node*>& nodes);
+
+	void codePrint(Node* root, const std::string code);
+	bool isLeaf(Node* root);
+
+	void print(std::list<Node*>& nodes);
+	void printNode(Node* node);
 
 protected:
 	class Node
 	{
 		friend class HuffmanTree;
 	public:
-		Node(std::string symbols);
+		Node(std::string symbols)
+		{
+			m_symbols = symbols;
+		}
 		~Node() = default;
 		int frequency() const
 		{
@@ -52,15 +56,22 @@ protected:
 		{
 			m_right = newNode;
 		}
-
+		std::string symbols()
+		{
+			return m_symbols;
+		}
+		void setSymbols(std::string symbols)
+		{
+			m_symbols = symbols;
+		}
 
 
 	private:
 		Node* m_left = nullptr;
 		Node* m_right = nullptr;
-		int m_frequency = 1;	
+		int m_frequency = 1;
 		std::string m_symbols;
-		//std::vector<bool> m_symbols[256];
+		//std::vector<bool> m_symbols[256]; 
 	};
 
 private:
