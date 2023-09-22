@@ -1,29 +1,3 @@
-<<<<<<< Updated upstream
-=======
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-#include "HuffmanTree.h"
-
-
-void HuffmanTree::build(const std::string& text)
-{
-	int n = text.length();
-	std::list<Node*> nodes;
-	for (int i = 0; i < n; i++) {
-		nodes[i]->symbols() = text[i];
-	}
-
-
-
-	/*std::sort(nodes.begin(), nodes.end(), [](Node* first, Node* second) {
-		return first->frequency() < second->frequency();
-		});*/
-}
-
-void HuffmanTree::Table(const std::string& text, int Tab[256])
-<<<<<<< Updated upstream
-=======
-=======
 #include<vector>
 #include<list>
 #include<algorithm>
@@ -54,7 +28,6 @@ void HuffmanTree::build(const std::string& text)
 {
 	std::list<Node*> nodes;
 	createAndSortList(text, nodes);
-
 	while (nodes.size() > 1) {
 		std::cout << '\n';
 		Node* subTreeRoot1 = nodes.front();
@@ -63,8 +36,8 @@ void HuffmanTree::build(const std::string& text)
 		nodes.pop_front();
 		std::string value = subTreeRoot1->symbols() + subTreeRoot2->symbols();
 		int freq = subTreeRoot1->frequency() + subTreeRoot2->frequency();
-		
-		Node * sumNode = new Node(value);
+
+		Node* sumNode = new Node(value);
 		sumNode->setFrequency(freq);
 		sumNode->m_left = subTreeRoot1;
 		sumNode->m_right = subTreeRoot2;
@@ -80,14 +53,15 @@ void HuffmanTree::build(const std::string& text)
 		/*nodes.sort([](const Node* first, const Node* second) {
 			return first->frequency() < second->frequency();
 		});*/
-		
 
-		
+
+
 
 		std::list<Node*>::iterator seeker = nodes.begin();
 		while (seeker != nodes.end() && (*seeker)->m_frequency <= sumNode->frequency()) {
 			seeker++;
 		}
+
 		nodes.insert(seeker, sumNode);
 	}
 	m_root = nodes.back();
@@ -116,8 +90,6 @@ bool HuffmanTree::decode(const std::string& encodedText, std::string& decodedTex
 }
 
 void HuffmanTree::Table(const std::string& text, int* Tab)
->>>>>>> Stashed changes
->>>>>>> Stashed changes
 {
 	int n = text.length();
 	for (int i = 0; i < n; i++) {
@@ -125,24 +97,12 @@ void HuffmanTree::Table(const std::string& text, int* Tab)
 	}
 }
 
-<<<<<<< Updated upstream
-=======
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-HuffmanTree::Node::Node(std::string symbols)
-{
-	m_symbols = symbols;
-	
-}
-<<<<<<< Updated upstream
-=======
-=======
 void HuffmanTree::createAndSortList(const std::string& text, std::list<Node*>& nodes)
 {
 	int Tab[256] = { 0 };
 	Table(text, Tab);
 
-	std::string withoutRepeat; 
+	std::string withoutRepeat;
 	for (int i = 0; i < text.size(); i++) {
 		if (checkRepeatString(withoutRepeat, text[i])) {
 			withoutRepeat.push_back(text[i]);
@@ -163,7 +123,7 @@ void HuffmanTree::createAndSortList(const std::string& text, std::list<Node*>& n
 		for (int j = 0; j < lenString; j++) {
 			if (Tab[withoutRepeat[j]] == masWithoutRepeat[i]) {
 				std::string symbl;
-			
+
 				Node* tmp = new Node(std::string(1, withoutRepeat[j]));
 				tmp->setFrequency(masWithoutRepeat[i]);
 				nodes.push_back(tmp);
@@ -200,9 +160,9 @@ bool HuffmanTree::isLeaf(Node* root)
 	return false;
 }
 
-void HuffmanTree::print(std::list<Node*> &nodes)
+void HuffmanTree::print(std::list<Node*>& nodes)
 {
-	std::for_each(nodes.begin(), nodes.end(), [](auto& x) 
+	std::for_each(nodes.begin(), nodes.end(), [](auto& x)
 		{
 			std::cout << x->symbols() << ' ';
 			std::cout << x->frequency() << ' ';
@@ -218,9 +178,3 @@ void HuffmanTree::printNode(Node* node)
 }
 
 
-
-
-
-
->>>>>>> Stashed changes
->>>>>>> Stashed changes
