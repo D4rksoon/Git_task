@@ -11,7 +11,7 @@ public:
 	HuffmanTree() = default;
 	~HuffmanTree() = default;
 	void build(const std::string& text);
-	void encode(Node* root, const std::string encodeText);
+	double encode(Node* root, const std::string encodeText);
 	bool decode(const std::string& encodedText, std::string& decodedText) const;
 	void Table(const std::string& text, int* Tab);
 	void createAndSortList(const std::string& text, std::list<Node*>& nodes);
