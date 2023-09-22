@@ -4,17 +4,20 @@
 
 int main()
 {
-    std::vector<int> keys = { 10, 20, 30, 40 };
+    std::vector<int> keys = { 1, 2, 3, 4, 5, 6 };
+    std::string value[] = { "one" , "two" , "three" , "four", "five", "six"};
     int size = keys.size(); // длина вектора на входе
-    int N = size + 10; // Размер таблицы
+    int N = size; // Размер таблицы
 
-    /*HashTable table(N);
-    for (int i = 0; i < N; i++) {
-        table.insert2(keys[i]);
+    HashTable table(N);
+    
+    for (int i = 0; i < size; i++) {
+        table.insert(keys[i], value[i]);
     }
-
-    table.print();*/
-
+    table.print();
+    
+    HashTable table1(table);
+    table1.print();
 
 
 }
