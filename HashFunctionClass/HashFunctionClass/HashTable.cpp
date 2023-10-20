@@ -10,51 +10,20 @@ HashTable::HashTable(int size) :
 HashTable::HashTable(const HashTable& other)
 {
 	m_size = other.m_size;
-	//Nodes.resize(m_size);
-	for (int i = 0; i < Nodes.size(); i++) {
-		delete Nodes[i];
-		Nodes[i] = nullptr;
-	}
-	for (int i = 0; i < other.getSize(); i++) {
-		Node* newNode = new Node();
-		if (other.Nodes[i]) {
-			newNode->m_key = other.Nodes[i]->m_key;
-			newNode->m_value = other.Nodes[i]->m_value;
-		}
-		else {
-			newNode = nullptr;
-		}
-		Nodes.push_back(newNode);
-	}
-	for (int i = 0; i < other.getSize(); i++) {
+	Nodes.resize(m_size);
 
-		Node* tmp = other.Nodes[i];
-		while (tmp != nullptr) {
-			if (tmp->next == nullptr) {
-				Nodes[i]->next == tmp;
-			}
+	for (int i = 0; i < m_size; i++) {
+		//int k = other.Nodes[i]->key();
+		//std::string v = other.Nodes[i]->value();
+		//Nodes[i] = other.Nodes[i];
+		Nodes[i] = new Node(other.Nodes[i]->key(), other.Nodes[i]->value());
+
+		/*while (other.Nodes[i]->next != nullptr) {
+			this->insert(other.Nodes[i]->setKey(), other.Nodes[i]->setValue());
 			tmp = tmp->next;
 		}
-
+		Nodes[i] = other.Nodes[i];*/
 	}
-	/*for (int i = 0; i < other.getSize(); i++) {
-		Node* newNode = new Node();
-		if (other.Nodes[i]) {
-			newNode->m_key = other.Nodes[i]->m_key;
-			newNode->m_value = other.Nodes[i]->m_value;
-			int j = 0;
-			Node* tmp = other.Nodes[i];
-			while (tmp->next != nullptr) {
-				if (other.Nodes[j]->next == nullptr) {
-					newNode->next = other.Nodes[j];
-				}
-				tmp = tmp->next;
-				j++;
-			}
-		}
-		
-		Nodes[i] = other.Nodes[i];
-	}*/
 }
 
 HashTable::~HashTable()
@@ -248,15 +217,12 @@ void HashTable::remove(int key)
 		else {
 			Node* prev = nullptr;
 			while (tmp) {
-				if (tmp->key() == key and prev != nullptr) {
-					prev->next = tmp->next; 
+				if (tmp->key() == key) {
+					prev->next = tmp->next; // !!! TODO
 					delete tmp;
 				}
-				else{
-					prev = tmp;
-					tmp = tmp->next;
-				}
-				
+				prev = tmp;
+				tmp = tmp->next;
 			}
 		}
 	}
@@ -277,7 +243,7 @@ bool HashTable::searchKey(int key)
 
 void HashTable::print()
 {
-	std::cout << "HashTable size - " << getSize() - 1 << '\n';
+	std::cout << "HashTable - size" << getSize() << '\n';
 	for (int i = 0; i < getSize(); i++) {
 		if (Nodes[i]) {
 			std::cout << "[" << i << "] Hash: " << hashCode(Nodes[i]->key());
