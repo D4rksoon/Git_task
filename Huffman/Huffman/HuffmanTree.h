@@ -1,6 +1,6 @@
-#pragma once 
-#include<string> 
-#include<list> 
+#pragma once  
+#include<string>  
+#include<list>  
 
 
 class HuffmanTree
@@ -12,12 +12,13 @@ public:
 	~HuffmanTree() = default;
 	void build(const std::string& text);
 	double encode(Node* root, const std::string encodeText);
-	bool decode(const std::string& encodedText, std::string& decodedText) const;
+	void decode(Node* root, int i, const std::string encodedText);
 	void Table(const std::string& text, int* Tab);
 	void createAndSortList(const std::string& text, std::list<Node*>& nodes);
 
 	void codePrint(Node* root, const std::string code);
 	bool isLeaf(Node* root);
+	Node* root();
 
 	void print(std::list<Node*>& nodes);
 	void printNode(Node* node);
@@ -71,7 +72,7 @@ protected:
 		Node* m_right = nullptr;
 		int m_frequency = 1;
 		std::string m_symbols;
-		//std::vector<bool> m_symbols[256]; 
+		//std::vector<bool> m_symbols[256];  
 	};
 
 private:
@@ -79,4 +80,3 @@ private:
 
 
 };
-
