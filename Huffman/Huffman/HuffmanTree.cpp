@@ -2,7 +2,6 @@
 #include<list> 
 #include<algorithm> 
 #include<iostream> 
-#include<map> 
 
 #include "HuffmanTree.h" 
 
@@ -60,49 +59,82 @@ void HuffmanTree::build(const std::string& text)
 		while (seeker != nodes.end() && (*seeker)->m_frequency <= sumNode->frequency()) {
 			seeker++;
 		}
-
+		
 		nodes.insert(seeker, sumNode);
+		
 	}
 	m_root = nodes.back();
-}
-// std::string encodeText - строка всех значений (01 000 100) + вернуть коэфицент сжатия (double)
-double HuffmanTree::encode(Node* root, const std::string encodeText)
-{
-	int sum = 0;
-	if (!m_root) {
-		return sum;
-	}
 
-	if (isLeaf(root)) {
-		sum += encodeText.size() * root->frequency();
+
+}
+// std::string encodedText - строка всех значений (01 000 100) + вернуть коэфицент сжатия (double)
+double HuffmanTree::encode(Node* root, std::string text, std::string &encodedText)
+{
+	if (!root) {
+		return -1;
 	}
-	encode(root->m_left, encodeText + "0");
-	encode(root->m_right, encodeText + "1");
-	std::cout << "__________- " << encodeText << "\n";
+	double encodeSum = 0;
+	for (int i = 0; i < text.size(); i++) {
+		Node* tmp = root;
+		while (!isLeaf(tmp)) {
+			std::string nodeSymbols = tmp->left()->symbols();
+			if (nodeSymbols.find(text[i]) <= nodeSymbols.size()) {
+				tmp = tmp->left();
+				encodedText += "0";
+			}
+			else {
+				tmp = tmp->right();
+				encodedText += "1";
+			}
+			encodeSum++;
+		}
+	}
+	if (root->left() == nullptr and root->right() == nullptr) {
+		for (int i = 0; i < text.size(); i++) {
+			encodedText += "0";
+			encodeSum += 1;
+		}
+	}
+	double compressionRatio = (text.size()) * 8 / encodeSum;
+	return compressionRatio;
+}
+
+double HuffmanTree::encode(std::string text, std::string& encodedText)
+{
+	if (m_root == nullptr) {
+		build(text);
+	}
+	return encode(m_root, text, encodedText);
+}
+
+bool HuffmanTree::decode(const std::string encodedText, std::string& decodedText)
+{
+	return decode(m_root, encodedText, decodedText);
 }
 
 // из encodedText (01 000 100) -> decodedText(a b c)
-void HuffmanTree::decode(Node* root, int i, const std::string encodedText)
+bool HuffmanTree::decode(Node* root, const std::string encodedText, std::string &decodedText)
 {
 	if (!root) {
-		return;
+		return false;
 	}
+	Node* tmp = root;
+	for (int i = 0; i < encodedText.size(); i++) {
+		if (encodedText[i] == '0' and tmp->left()) {
+			tmp = tmp->left();			
+		}
+		else if (encodedText[i] == '1' and tmp->right()) {
+			tmp = tmp->right();
+		}
 
-	if (isLeaf(root)) {
-		//decodedText + root->symbols(); 
-		std::cout << root->symbols() << ' ';
-		return;
+		if (isLeaf(tmp)) {
+			decodedText += tmp->symbols();
+			tmp = root;
+		}
 	}
-
-	i++;
-	std::cout << encodedText[i] << ' ';
-	if (encodedText[i] == '0') {
-		decode(root->left(), i, encodedText);
-	}
-	else {
-		decode(root->right(), i, encodedText);
-	}
+	return true;
 }
+
 
 void HuffmanTree::Table(const std::string& text, int* Tab)
 {
@@ -160,6 +192,8 @@ void HuffmanTree::codePrint(Node* root, const std::string code)
 	}
 	codePrint(root->left(), code + "0");
 	codePrint(root->right(), code + "1");
+
+
 }
 
 bool HuffmanTree::isLeaf(Node* root)

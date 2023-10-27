@@ -15,24 +15,30 @@ int main()
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 	int i = 0;
-	std::string encodeText;
-	std::string decodeText;
-	std::string TestEncode("0000010110110111");
-	HuffmanTree tree;
+	std::string encodedText;
+	std::string decodedText;
+	//std::string TestEncode("010111001110100000011010111111");
+	HuffmanTree tree;       
 
-	std::string text("aafafedceebb");
+	std::string text("aaaa");
 
 	tree.build(text);
-
-	//tree.codePrint(tree.root(), encodeText);
 
 	std::cout << "\n";
 
 	//tree.decode(tree.root(), i = 5, TestEncode);
-	std::cout << "\n";
 	//std::cout << "\ndecode: " << decodeText << '\n';
 
-	int s = 0;
-	s = tree.encode(tree.root(), encodeText);
-	std::cout << "\nSUM " << s << '\n';
+	
+
+	std::cout << "\nText: " << text << " size:" << text.size() << '\n';
+	//tree.codePrint(tree.root(), encodedText);
+	double compressionRatio = 0;
+	compressionRatio = tree.encode(text, encodedText);
+	std::cout << "\nEncoded text " << encodedText;
+	tree.decode(encodedText, decodedText);
+	std::cout << "\nDecoded text " << decodedText << " size: " << decodedText.size() << '\n';
+	std::cout << "\ncompressionRatio " << compressionRatio << '\n';
+
+
 }

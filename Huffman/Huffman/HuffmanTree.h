@@ -11,8 +11,9 @@ public:
 	HuffmanTree() = default;
 	~HuffmanTree() = default;
 	void build(const std::string& text);
-	double encode(Node* root, const std::string encodeText);
-	void decode(Node* root, int i, const std::string encodedText);
+	double encode(std::string text, std::string& encodedText);
+	bool decode(const std::string encodedText, std::string& decodedText);
+
 	void Table(const std::string& text, int* Tab);
 	void createAndSortList(const std::string& text, std::list<Node*>& nodes);
 
@@ -22,6 +23,10 @@ public:
 
 	void print(std::list<Node*>& nodes);
 	void printNode(Node* node);
+
+protected:
+	double encode(Node* root, std::string text, std::string& encodedText);
+	bool decode(Node* root, const std::string encodedText, std::string& decodedText);
 
 protected:
 	class Node
@@ -72,7 +77,6 @@ protected:
 		Node* m_right = nullptr;
 		int m_frequency = 1;
 		std::string m_symbols;
-		//std::vector<bool> m_symbols[256];  
 	};
 
 private:
