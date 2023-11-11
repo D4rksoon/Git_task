@@ -17,10 +17,10 @@ int main()
 	int i = 0;
 	std::string encodedText;
 	std::string decodedText;
-	std::string TestEncode("010111001110100000011010111111");
+	//std::string TestEncode("010111001110100000011010111111");
 	HuffmanTree tree;       
 
-	std::string text("aafafedceebb");
+	std::string text("aaaa");
 
 	tree.build(text);
 
@@ -34,9 +34,9 @@ int main()
 	std::cout << "\nText: " << text << " size:" << text.size() << '\n';
 	//tree.codePrint(tree.root(), encodedText);
 	double compressionRatio = 0;
-	compressionRatio = tree.encode(tree.root(), text, encodedText);
+	compressionRatio = tree.encode(text, encodedText);
 	std::cout << "\nEncoded text " << encodedText;
-	tree.decode(tree.root(), encodedText, decodedText);
+	tree.decode(encodedText, decodedText);
 	std::cout << "\nDecoded text " << decodedText << " size: " << decodedText.size() << '\n';
 	std::cout << "\ncompressionRatio " << compressionRatio << '\n';
 

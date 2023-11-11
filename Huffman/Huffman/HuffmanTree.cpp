@@ -65,8 +65,9 @@ void HuffmanTree::build(const std::string& text)
 	}
 	m_root = nodes.back();
 
+
 }
-// std::string encodedText - строка всех значений (01 000 100) + вернуть коэфицент сжатия (double)
+// std::string encodedText - пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (01 000 100) + пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (double)
 double HuffmanTree::encode(Node* root, std::string text, std::string &encodedText)
 {
 	if (!root) {
@@ -88,10 +89,30 @@ double HuffmanTree::encode(Node* root, std::string text, std::string &encodedTex
 			encodeSum++;
 		}
 	}
-	double compressionRatio = text.size() * 8 / encodeSum;
+	if (root->left() == nullptr and root->right() == nullptr) {
+		for (int i = 0; i < text.size(); i++) {
+			encodedText += "0";
+			encodeSum += 1;
+		}
+	}
+	double compressionRatio = (text.size()) * 8 / encodeSum;
 	return compressionRatio;
 }
-// из encodedText (01 000 100) -> decodedText(a b c)
+
+double HuffmanTree::encode(std::string text, std::string& encodedText)
+{
+	if (m_root == nullptr) {
+		build(text);
+	}
+	return encode(m_root, text, encodedText);
+}
+
+bool HuffmanTree::decode(const std::string encodedText, std::string& decodedText)
+{
+	return decode(m_root, encodedText, decodedText);
+}
+
+// пїЅпїЅ encodedText (01 000 100) -> decodedText(a b c)
 bool HuffmanTree::decode(Node* root, const std::string encodedText, std::string &decodedText)
 {
 	if (!root) {
@@ -99,10 +120,10 @@ bool HuffmanTree::decode(Node* root, const std::string encodedText, std::string 
 	}
 	Node* tmp = root;
 	for (int i = 0; i < encodedText.size(); i++) {
-		if (encodedText[i] == '0') {
+		if (encodedText[i] == '0' and tmp->left()) {
 			tmp = tmp->left();			
 		}
-		else if (encodedText[i] == '1') {
+		else if (encodedText[i] == '1' and tmp->right()) {
 			tmp = tmp->right();
 		}
 
@@ -113,6 +134,7 @@ bool HuffmanTree::decode(Node* root, const std::string encodedText, std::string 
 	}
 	return true;
 }
+
 
 void HuffmanTree::Table(const std::string& text, int* Tab)
 {
@@ -170,6 +192,8 @@ void HuffmanTree::codePrint(Node* root, const std::string code)
 	}
 	codePrint(root->left(), code + "0");
 	codePrint(root->right(), code + "1");
+
+
 }
 
 bool HuffmanTree::isLeaf(Node* root)
