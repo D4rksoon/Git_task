@@ -30,7 +30,7 @@ HashTable::HashTable(const HashTable& other)
 
 		Node* tmp = other.Nodes[i];
 		while (tmp != nullptr) {
-			if (tmp->next == nullptr) {
+			if (tmp->next) {
 				Nodes[i]->next == tmp;
 			}
 			tmp = tmp->next;
@@ -62,8 +62,6 @@ HashTable::~HashTable()
 	for (Node* node : Nodes) {
 		delete node;
 	}
-	//delete Nodes;
-
 }
 
 HashTable& HashTable::operator=(const HashTable& other)
@@ -114,7 +112,6 @@ int HashTable::hashCode(int key)
 	const double a = -(1 - sqrt(5)) / 2; // const a = 0.618034
 	int N = getSize(); // Table size
 	int hashCode = int((key % N) * a * N) % N;
-	//int hashCode2 = fmod(fmod(key, N) * a * N, N);
 	return hashCode;
 }
 
@@ -292,11 +289,11 @@ std::vector<int> HashTable::keys()
 	std::vector<int> keys;
 	for (Node* node : Nodes) {
 		if (node) {
-			//Открытая адресация | внутрении цепочки
+			//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ | пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 			keys.push_back(node->key());
 		}
 			
-		//Внешнии цепочки
+		//пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 		while (node != nullptr) {
 			keys.push_back(node->key());
 			node = node->next;
@@ -308,5 +305,5 @@ std::vector<int> HashTable::keys()
 
 
 
-// test (сдулать тесты)
+// test (пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ)
 

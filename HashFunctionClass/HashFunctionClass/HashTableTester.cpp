@@ -8,13 +8,11 @@ HashTableTester::HashTableTester(const bool useConsoleOutput)
 void HashTableTester::test(int size)
 {
 	m_size = size;
-	std::cout << "\nStart testing\n";
 	remove();
 	assign();
 	search();
 	clear();
 	destructor();
-	std::cout << "\nTesting complete\n";
 	getchar();
 }
 
@@ -54,7 +52,7 @@ void HashTableTester::search()
 void HashTableTester::clear()
 {
 	HashTable table(m_size);
-	std::string value = "test";
+	std::string value = std::to_string(rand() % 50);
 	for (int i = 0; i < m_size; i++) {
 		table.insert(i, value);
 	}
@@ -67,7 +65,7 @@ void HashTableTester::clear()
 void HashTableTester::assign()
 {
 	HashTable table1(m_size);
-	std::string value = "test";
+	std::string value = std::to_string(rand()%50);
 	for (int i = 0; i < m_size; i++) {
 		table1.insert(i, value);
 	}
