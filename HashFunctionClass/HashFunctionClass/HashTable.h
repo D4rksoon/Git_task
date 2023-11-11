@@ -23,8 +23,7 @@ public:
 	void print();
 	std::vector<int> keys();
 
-	void insertTest(int key, std::string value);
-	void deleteTest(int key);
+	void remove_old(int key);
 private:
 	int m_size;
 	std::vector<Node*> Nodes;
