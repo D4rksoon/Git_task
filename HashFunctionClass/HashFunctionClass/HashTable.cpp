@@ -10,7 +10,6 @@ HashTable::HashTable(int size) :
 HashTable::HashTable(const HashTable& other)
 {
 	m_size = other.m_size;
-	//Nodes.resize(m_size);
 	for (int i = 0; i < Nodes.size(); i++) {
 		delete Nodes[i];
 		Nodes[i] = nullptr;
@@ -139,74 +138,53 @@ void HashTable::insert(int key, std::string value)
 	}
 }
 
-void HashTable::insertTest(int key, std::string value)
-{
-	int index = hashCode(key);
-	Node* newNode = new Node(key, value);
-	if (Nodes[index] == NULL) {
-		Nodes[index] = newNode;
-		return;
-	}
-	else {
-		Node* tmp = Nodes[index];
-		for (int i = 0; i < getSize(); i++) {
-			if (Nodes[i] == NULL) {
-				Nodes[i] = newNode;
-				while (tmp->next) {
-					tmp = tmp->next;
-				}
-				tmp->next = newNode;
-				return;
-			}		
-		}		
-		std::cerr << "Error: Table is full\n";
-	}
-}
-
-void HashTable::deleteTest(int key)
+void HashTable::remove(int key)
 {
 	int index = hashCode(key);
 	Node* tmp = Nodes[index];
-	if (tmp == NULL) {
-		return; // If key does not exist
+	if (tmp == nullptr) {
+		return; 
 	}
 	// No collision
 	if (tmp->next == nullptr and tmp->key() == key) {
-		Nodes[index] = NULL;
+		Nodes[index] = nullptr;
 		delete tmp;
 		return;
 	}
 	// If does collision
 	else if (tmp->next != nullptr){
+	
 		if (tmp->key() == key) {
-			Nodes[index] = tmp->next;
-			if (tmp->next->next) {
-				Nodes[index]->next = tmp->next->next;
-			}
-			delete tmp->next;
+			tmp = nullptr;
+			delete tmp;
 			return;
 		}
+
 		else {
-			Node* prev = nullptr;
-			while (tmp) {
-				if (tmp->key() == key) {
-					prev->next = tmp->next;
-					delete tmp;
+			Node* prev = tmp;
+			Node* curr = tmp->next;
+			while (curr != nullptr) {
+				if (curr->key() == key) {
+					prev->next = curr->next;
+					delete curr;
+					return;
 				}
-				prev = tmp;
-				tmp = tmp->next;
+				else {
+					prev = curr;
+					curr = curr->next;
+				}				
 			}
 		}
 	}
 
 }
 
-void HashTable::remove(int key)
+void HashTable::remove_old(int key)
 {
 	int index = hashCode(key);
 	Node* tmp = Nodes[index];
 	if (tmp == NULL) {
-		return; // If key does not exist
+		return; 
 	}
 	// No collision
 	if (tmp->next == nullptr and tmp->key() == key) {
